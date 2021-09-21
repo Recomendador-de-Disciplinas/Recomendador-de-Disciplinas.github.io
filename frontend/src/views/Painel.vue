@@ -1,13 +1,15 @@
 <template>
-  <h1>Painel</h1>
+  <v-container>
+    <Navbar />
+    <h1>Painel</h1>
+  </v-container>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar.vue';
+
 export default {
-  name: 'Painel'
+  name: 'Painel',
+  components: { Navbar },
 }
 </script>
-
-<style scoped>
-
-</style>
