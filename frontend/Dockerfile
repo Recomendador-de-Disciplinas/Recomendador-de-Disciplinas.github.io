@@ -10,4 +10,4 @@ COPY . .
 
 USER node
 
-CMD yarn serve 
+CMD yarn serve
