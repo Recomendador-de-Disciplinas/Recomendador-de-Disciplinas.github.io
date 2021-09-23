@@ -1,7 +1,6 @@
 <template>
   <div>
       <v-toolbar flat>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
         <v-tabs>
           <v-tab v-for="(path, i) in paths" :key='i' link :to="path.url" >{{ path.name }}</v-tab>
         </v-tabs>
