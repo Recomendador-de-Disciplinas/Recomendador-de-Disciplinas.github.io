@@ -19,6 +19,10 @@ Projeto da disciplina MAC0413 - Tópicos Avançados de Programação Orientada a
 
 **Vinicius Pereira Ximenes Frota, NUSP: 11221967**
 
+## Contribuições
+
+Todos os commits realizados no Gitlab são espelhados para um repositório no Github. Desta forma, conseguimos obter estatísticas a respeito das contribuições de cada membro mesmo quando realizamos `pair/mob programming`. Portanto, para verificar as contribuições acesse este [link](https://github.com/Franwernke/Recomendador-de-Disciplinas/pulse/monthly).
+
 ## Executando
 
 Com Docker e Docker Compose instalado, execute:
