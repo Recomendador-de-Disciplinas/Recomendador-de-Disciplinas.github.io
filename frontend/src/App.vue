@@ -1,12 +1,23 @@
 <template>
-  <v-app class="global">
+  <v-app>
+    <Navbar />
     <router-view/>
   </v-app>
 </template>
 
+<script>
+import Navbar from '@/components/Navbar.vue';
+
+export default {
+  components: { Navbar },
+}
+</script>
+
+
 <style>
 :root {
-  background-color: red;  
+  width: 100vw;
+  height: 100vh;
 }
 
 #app {

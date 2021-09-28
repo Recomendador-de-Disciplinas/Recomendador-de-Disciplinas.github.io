@@ -1,22 +1,17 @@
 <template>
-  <v-container class="main-container">
-    <v-row>
-      <Navbar />
-    </v-row>
-
+  <section class="main-container">
     <v-row
-      align='center'
+      align="end"
       class='main-row'
     >
       <v-col
-        align-self='center'
-        cols='4'
-        class='usp-logo'
+        cols="3"
+        class="usp-logo"
       >
         <img src="@/assets/usp-logo-transp.png" alt="Logo USP" class="logo-usp">
       </v-col>
       <v-col
-        cols='8'
+        cols="9"
       >
         <div class="text">
           <h1>Recomendador de Disciplinas</h1>
@@ -26,15 +21,20 @@
       </v-col>
     </v-row>
 
-  </v-container>
+    <v-row
+      class="btn-row"
+      justify="center"
+      align="center"
+    >
+      <v-btn class="px-10 py-7 rounded-lg" color="#E7D2CC" depressed>Começar</v-btn>
+    </v-row>
+
+  </section>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
-
 export default {
   name: 'Home',
-  components: { Navbar },
 }
 </script>
 
@@ -46,7 +46,15 @@ export default {
 
 .main-row {
   width: 100%;
-  height: 100%;
+  height: 50%;
+}
+
+.btn-row {
+  height: 50%;
+}
+
+.btn-start {
+  padding: 16px;
 }
 
 .logo-usp {
