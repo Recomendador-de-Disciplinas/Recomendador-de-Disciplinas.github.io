@@ -26,7 +26,7 @@
       justify="center"
       align="center"
     >
-      <v-btn class="px-10 py-7 rounded-lg" color="#E7D2CC" depressed>Começar</v-btn>
+      <v-btn class="px-10 py-7 rounded-lg" color="#E7D2CC" depressed to="/start">Começar</v-btn>
     </v-row>
 
   </section>
