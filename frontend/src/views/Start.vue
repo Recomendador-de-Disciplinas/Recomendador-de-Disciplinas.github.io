@@ -15,7 +15,11 @@
     <v-row class="px-10">
       <v-col>
         <v-text-field label="Nome" clearable></v-text-field>
-        <v-autocomplete label="Disciplinas já cursadas" :items="disciplines" clearable></v-autocomplete>
+        <v-autocomplete
+          label="Disciplinas já cursadas"
+          :items="disciplines"
+          clearable
+        ></v-autocomplete>
       </v-col>
       <v-col>
         <!-- COLOCA O PAINEL AQUI GUERRERO -->
@@ -30,27 +34,32 @@
     <v-row class="px-10">
       <v-col>
         <v-text-field label="Tópicos de interesse" clearable></v-text-field>
-        <v-autocomplete label="Departamentos de interesse" :items="disciplines" clearable></v-autocomplete>
+        <v-autocomplete
+          label="Departamentos de interesse"
+          :items="disciplines"
+          clearable
+        ></v-autocomplete>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-btn class="px-10 mt-8 py-7 rounded-lg" color="#CEE7CC" depressed>Ver disciplinas</v-btn>
+      <v-btn class="px-10 mt-8 py-7 rounded-lg" color="#CEE7CC" depressed
+        >Ver disciplinas</v-btn
+      >
     </v-row>
-
   </v-container>
 </template>
 
 <script>
 export default {
   data: () => ({
-    disciplines: ["MAC0110", "MAC0121"]
-  })
-}
+    disciplines: ['MAC0110', 'MAC0121'],
+  }),
+};
 </script>
 
 <style scoped>
 .subtitle {
-  color: #868B8E;
+  color: #868b8e;
 }
 
 .divider {
