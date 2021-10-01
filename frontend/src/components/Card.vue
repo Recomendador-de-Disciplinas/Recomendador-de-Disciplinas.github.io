@@ -1,4 +1,3 @@
-
 <template>
   <v-sheet
     class="ma-2"
@@ -6,25 +5,22 @@
     elevation="1"
     width="fit-content"
     height="fit-content"
-    >
+  >
     <v-container class="align-center">
       <v-row>
         <v-col class="pa-0 mb-2" align="end">
-            <v-icon dense color="red" @click="eraseCard">
-              mdi-close
-            </v-icon>
+          <v-icon dense color="red" @click="eraseCard"> mdi-close </v-icon>
         </v-col>
       </v-row>
       <p class="ma-0 text-center text-h5">{{ departmentCode }}</p>
       <p class="ma-0 text-center">{{ disciplineCode }}</p>
     </v-container>
   </v-sheet>
-
 </template>
 <script>
 export default {
   props: {
-    discipline: String
+    discipline: String,
   },
   computed: {
     departmentCode() {
@@ -38,9 +34,8 @@ export default {
   },
   methods: {
     eraseCard() {
-      this.$emit("erase", this.discipline);
-    }
-  }
-
-}
+      this.$emit('erase', this.discipline);
+    },
+  },
+};
 </script>
