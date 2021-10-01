@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Navbar />
-    <router-view/>
+    <router-view />
   </v-app>
 </template>
 
@@ -10,9 +10,8 @@ import Navbar from '@/components/Navbar.vue';
 
 export default {
   components: { Navbar },
-}
+};
 </script>
-
 
 <style>
 :root {
@@ -21,6 +20,6 @@ export default {
 }
 
 #app {
-  background-color: #EEEDE7;
+  background-color: #eeede7;
 }
 </style>
