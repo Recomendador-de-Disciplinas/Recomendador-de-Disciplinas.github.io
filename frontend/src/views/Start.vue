@@ -14,11 +14,11 @@
     </v-row>
     <v-row class="px-10">
       <v-col>
-        <v-text-field label="Nome" clearable></v-text-field>
-        <v-autocomplete label="Disciplinas já cursadas" :items="disciplines" clearable></v-autocomplete>
+        <v-text-field label="Nome" clearable />
+        <v-text-field label="Disciplinas já cursadas" v-model="discipline" :rules="rules" persistent-hint hint="Formato: MAC0110" @keydown.enter="addDisciplines" />
       </v-col>
       <v-col>
-        <!-- COLOCA O PAINEL AQUI GUERRERO -->
+        <Board :disciplines="disciplines" @erase="eraseDiscipline"/>
       </v-col>
     </v-row>
     <v-row>
@@ -36,15 +36,38 @@
     <v-row justify="center">
       <v-btn class="px-10 mt-8 py-7 rounded-lg" color="#CEE7CC" depressed>Ver disciplinas</v-btn>
     </v-row>
-
   </v-container>
 </template>
 
 <script>
+import Board from "@/components/Board.vue"
+
 export default {
   data: () => ({
-    disciplines: ["MAC0110", "MAC0121"]
-  })
+    discipline: "",
+    disciplines: [],
+    rules: [
+      (value) => {
+        const regex = /\D{3}\d{4}/;
+        return value.match(regex) || 'Formato inválido! Exemplo: MAC0110';
+      }
+    ]
+  }),
+  components: {
+    Board
+  },
+  methods: {
+    eraseDiscipline(discipline) {
+      this.disciplines = this.disciplines.filter((element) => discipline != element);
+    },
+    addDisciplines() {
+       const regex = /\D{3}\d{4}/;
+      if (this.discipline.match(regex)) {
+        this.disciplines.push(this.discipline);
+        this.discipline = "";
+      }
+    }
+  }
 }
 </script>
 
