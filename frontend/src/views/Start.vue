@@ -36,12 +36,13 @@
     </v-row>
     <v-row class="px-10">
       <v-col>
-        <v-text-field label="Tópicos de interesse" clearable></v-text-field>
-        <v-autocomplete
+        <v-combobox
           label="Departamentos de interesse"
-          :items="disciplines"
-          clearable
-        ></v-autocomplete>
+          v-model="departments"
+          deletable-chips
+          multiple
+          small-chips
+        ></v-combobox>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -55,15 +56,16 @@
 <script>
 import Board from '@/components/Board.vue';
 
+const regexDisciplines = /^\D{3}\d{4}$/;
+
 export default {
   data: () => ({
     discipline: '',
     disciplines: [],
+    departments: [],
     rules: [
-      (value) => {
-        const regex = /\D{3}\d{4}/;
-        return value.match(regex) || 'Formato inválido! Exemplo: MAC0110';
-      },
+      (value) =>
+        regexDisciplines.test(value) || 'Formato inválido! Exemplo: MAC0110',
     ],
   }),
   components: {
@@ -76,8 +78,7 @@ export default {
       );
     },
     addDisciplines() {
-      const regex = /\D{3}\d{4}/;
-      if (this.discipline.match(regex)) {
+      if (regexDisciplines.test(this.discipline)) {
         this.disciplines.push(this.discipline);
         this.discipline = '';
       }
