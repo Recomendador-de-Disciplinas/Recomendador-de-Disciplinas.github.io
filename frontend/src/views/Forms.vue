@@ -52,7 +52,7 @@
           color="#CEE7CC"
           depressed
           @click="submit"
-          >Ver disciplinas</v-btn
+          >Salvar</v-btn
         >
       </v-row>
     </v-form>
