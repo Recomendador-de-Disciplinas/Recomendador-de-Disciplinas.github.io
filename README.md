@@ -25,7 +25,7 @@ Todos os commits realizados no Gitlab são espelhados para um repositório no Gi
 
 ## Executando
 
-Com Docker e Docker Compose instalado, execute:
+Com Docker e Docker Compose instalados, execute:
 
 ```bash
 $> docker-compose up --build
@@ -36,7 +36,7 @@ O frontend estará em `localhost:3000` e o backend estará em `localhost:8080`
 ## Fase 1
 
 Esboço:
-https://www.figma.com/file/IN8LL77pqYjyt3lOFh9Qla/Main-Screen?node-id=0%3A1
+https://www.figma.com/file/IN8LL77pqYjyt3lOFh9Qla
 
 Para a primeira fase, focamos somente no front-end, utilizando as seguintes ferramentas:
 - Vue
@@ -44,18 +44,15 @@ Para a primeira fase, focamos somente no front-end, utilizando as seguintes ferr
 - LocalStorage
 - Jest
 
-Decidimos usar o Vue por conta da experiencia com esse framework por grande parte do grupo. Além disso, a ferramente apresenta um bom ecossistema que possibilita uma maior produtividade no desenvolvimento de telas e funcionalidades necessárias para parte do cliente. O Vuetify é uma dessas ferramentas do ecossistema do Vue, ela disponibiliza vários componentes para agilizar partes comuns do desenvolvimento de aplicativos.
+Decidimos usar o Vue por conta da experiência com este _framework_ por grande parte do grupo. Além disso, a ferramenta apresenta um bom ecossistema que possibilita uma maior produtividade no desenvolvimento de telas e funcionalidades necessárias para a parte da visualização do projeto. O Vuetify é uma dessas ferramentas do ecossistema do Vue, ele disponibiliza vários componentes já estilizados além de uma interface simples para estilização de todo o código, ajudando a agilizar o desenvolvimento.
 
-O LocalStorage foi utilizado com a finalidade de salvar o estado dos inputs do usuário, sem necessidade de implementar uma sessão, o que possibilitou uma maior agiliadde no processo de desenvolvimento.
+O LocalStorage foi utilizado com a finalidade de salvar o estado dos dados do usuário em _cache_, sem a necessidade de implementar uma sessão. Esta decisão foi tomada visando evitar uma complexidade adicional para a aplicação como um todo.
 
 Por fim, utilizamos o Jest para fazer testes de unidade na aplicação. Por conta do estágio prematuro do front-end, não foram necessários muitos testes.
 
-Para o projeto do front-end, decidimos adotar a arquitetura MVVM (Model View View-Model), similar ao MVC. A  arquitetura possibilitou uma maior separação das responsabilidades por meio da componentização das views.
+Requisito 1) Por meio da página do formulário, conseguimos cadastrar e editar um usuário que possui, por enquanto, nome, disciplinas já cursadas e departamentos de interesse na USP. Ao preencher o formulário, os dados coletados são salvos no LocalStorage, o que permite recuperarmos os mesmos para a visualização destas informações. Nesta primeira fase, o usuário pode inserir as disciplinas e os departamentos de interesse somente de forma manual, descrevendo os códigos das matérias/departamentos. Em uma próxima fase, esses dados serão selecionados a partir das informações disponibilizadas pelo [jupiterweb](https://uspdigital.usp.br/jupiterweb/). Para este fim, já está em progresso o desenvolvimento de um _crawler_ para adquirir estes dados.
 
-
-Requisito 1) Por meio da página de formulário, conseguimos cadastrar e editar um usuário que possui nome, disciplinas já realizadas e departamentos de interesse na USP. Ao preencher o formulário, os dados coletados são salvos no LocalStorage, o que permite recuperarmos os mesmos em uma página de perfil, para o usuário visualizar essas informações. Nessa primeira fase, o usuário pode inserir as disciplinas somente de forma manual, descrevendo os códigos das matérias. Em uma próxima fase, esses dados poderão selecionados a partir das disciplinas disponíveis na USP. Para este fim, já está em progresso o desenvolvimento de um *Crawler* para adquirir estes dados.
-
-Requisito 2) Por meio do mesmo formulário, o usuário acompanha os dados que estão sendo inseridos, podendo visualizar as matérias em um quadro, à direita da página. Da mesma forma, o quadro permite a remoção das disciplinas, dando liberdade para edição dessa lista, tudo de uma forma muito agradável e fluida. O mesmo vale para os departamentos desejados, onde temos um esquema de tags que ficam registradas no próprio input, também podendo ser removidas posteriormente.
+Requisito 2) Por meio do mesmo formulário, o usuário pode visualizar, remover e editar as suas informações, tudo de uma forma muito agradável e fuida.
 
 ## Fase 2
 
