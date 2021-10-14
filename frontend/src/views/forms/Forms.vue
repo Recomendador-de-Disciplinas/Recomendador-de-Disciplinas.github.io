@@ -61,6 +61,7 @@
 
 <script>
 import Board from '@/components/Board.vue';
+import { saveClientSide } from './forms';
 
 const regexDisciplines = /^\D{3}\d{4}$/;
 
@@ -99,9 +100,11 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate()) {
-        localStorage.setItem('name', JSON.stringify(this.name));
-        localStorage.setItem('disciplines', JSON.stringify(this.disciplines));
-        localStorage.setItem('departments', JSON.stringify(this.departments));
+        saveClientSide(localStorage, {
+          name: this.name,
+          disciplines: this.disciplines,
+          departments: this.departments,
+        });
         this.$router.push('/painel');
       }
     },
