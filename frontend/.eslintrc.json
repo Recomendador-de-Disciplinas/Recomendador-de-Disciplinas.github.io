@@ -17,7 +17,8 @@
   },
   "plugins": [
     "prettier",
-    "vue"
+    "vue",
+    "jest"
   ],
   "rules": {
     "prettier/prettier": "error"
