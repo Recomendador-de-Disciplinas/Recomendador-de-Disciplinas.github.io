@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
 import Painel from '@/views/Painel.vue';
-import Forms from '@/views/Forms.vue';
+import Forms from '@/views/forms/Forms.vue';
 
 Vue.use(VueRouter);
 

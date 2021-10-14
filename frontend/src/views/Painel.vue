@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h1 v-if="checkData">Preencha seus dados</h1>
-    <div v-if="checkData">
+    <div v-if="!checkData">
       <v-row class="my-4">
         <h1 class="mx-2">{{ name }}</h1>
       </v-row>
