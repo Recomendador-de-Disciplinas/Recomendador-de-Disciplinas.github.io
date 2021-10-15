@@ -54,9 +54,10 @@ Requisito 1) Por meio da página do formulário, conseguimos cadastrar e editar 
 
 Requisito 2) Por meio do mesmo formulário, o usuário pode visualizar, remover e editar as suas informações, tudo de uma forma muito agradável e fluida.
 
-| ![contribuicao_fase_1](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/docs/fase_1.png) |
+| ![contribuicao_fase_1](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_1.png) |
 |:--:|
 | **Contribuições no período 14/09 - 14/10**|
+| Da esquerda para a direita: Thiago, Francisco, Erick, Vinicius e Daniel |
 
 ## Fase 2
 
