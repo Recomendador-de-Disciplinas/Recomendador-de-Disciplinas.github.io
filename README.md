@@ -57,7 +57,7 @@ Requisito 2) Por meio do mesmo formulário, o usuário pode visualizar, remover 
 | ![contribuicao_fase_1](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_1.png) |
 |:--:|
 | **Contribuições no período 14/09 - 14/10**|
-| Da esquerda para a direita: Thiago, Francisco, Erick, Vinicius e Daniel |
+| Da esquerda para a direita: Thiago: 24, Francisco: 15, Erick: 14, Vinicius: 14 e Daniel: 9 |
 
 ## Fase 2
 
