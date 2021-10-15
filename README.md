@@ -52,7 +52,11 @@ Por fim, utilizamos o Jest para fazer testes de unidade na aplicação. Por cont
 
 Requisito 1) Por meio da página do formulário, conseguimos cadastrar e editar um usuário que possui, por enquanto, nome, disciplinas já cursadas e departamentos de interesse na USP. Ao preencher o formulário, os dados coletados são salvos no LocalStorage, o que permite recuperarmos os mesmos para a visualização destas informações. Nesta primeira fase, o usuário pode inserir as disciplinas e os departamentos de interesse somente de forma manual, descrevendo os códigos das matérias/departamentos. Em uma próxima fase, esses dados serão selecionados a partir das informações disponibilizadas pelo [jupiterweb](https://uspdigital.usp.br/jupiterweb/). Para este fim, já está em progresso o desenvolvimento de um _crawler_ para adquirir estes dados.
 
-Requisito 2) Por meio do mesmo formulário, o usuário pode visualizar, remover e editar as suas informações, tudo de uma forma muito agradável e fuida.
+Requisito 2) Por meio do mesmo formulário, o usuário pode visualizar, remover e editar as suas informações, tudo de uma forma muito agradável e fluida.
+
+| ![contribuicao_fase_1](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/docs/fase_1.png) |
+|:--:|
+| **Contribuições no período 14/09 - 14/10**|
 
 ## Fase 2
 
