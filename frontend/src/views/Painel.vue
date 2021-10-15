@@ -1,7 +1,17 @@
 <template>
-  <v-container>
-    <h1 v-if="checkData">Preencha seus dados</h1>
-    <div v-if="!checkData">
+  <v-container :class="containerClass">
+    <v-container v-if="checkData" class="d-flex flex-column align-self-center align-center">
+        <h1 class="text-center">Preencha seus dados para visualizar o painel :)</h1>
+         <v-btn
+          class="mt-8 py-7 rounded-lg"
+          color="#CEE7CC"
+          depressed
+          width="50%"
+          to="/forms"
+          >Preencher agora</v-btn
+        >
+    </v-container>
+    <div v-else>
       <v-row class="my-4">
         <h1 class="mx-2">{{ name }}</h1>
       </v-row>
@@ -43,11 +53,20 @@ export default {
         this.departments.length == 0
       );
     },
+    containerClass() {
+      let className = 'height-100';
+      if (this.checkData) className += " d-flex";
+      return className;
+    }
   },
 };
 </script>
 
 <style scoped>
+.height-100 {
+  height: 100%;
+}
+
 .border {
   border: 1px solid black;
 }
