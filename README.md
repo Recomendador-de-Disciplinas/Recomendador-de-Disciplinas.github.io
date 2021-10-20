@@ -25,13 +25,29 @@ Todos os commits realizados no Gitlab são espelhados para um repositório no Gi
 
 ## Executando
 
-Com Docker e Docker Compose instalados, execute:
+### Frontend
+
+Com Docker e Docker Compose instalados, execute dentro do diretório `/frontend`:
 
 ```bash
 $> docker-compose up --build
 ```
 
-O frontend estará em `localhost:3000` e o backend estará em `localhost:8080`
+O frontend estará em `localhost:3000`
+
+
+### Backend
+
+É necessário configurar dentro do diretório `/backend` um arquivo `.env` com as variáveis de ambiente necessárias para executar o `backend` e o `db`.
+As variáveis necessárias estão disponíveis no arquivo `.env.sample`. Algumas variáveis padrões já estão definidas.
+
+Com Docker e Docker Compose instalados, execute dentro do mesmo diretório:
+
+```bash
+$> docker-compose up --build
+```
+
+O backend estará em `localhost:8080`
 
 ## Fase 1
 

@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 FROM adoptopenjdk/openjdk11:jre11u-alpine-nightly
 
