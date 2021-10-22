@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity(name = "department")
 public class Department {
   @Id
@@ -17,6 +19,7 @@ public class Department {
   private String name;
   private String url;
 
+  @JsonManagedReference
   @OneToMany
   private List<Discipline> disciplines;
 

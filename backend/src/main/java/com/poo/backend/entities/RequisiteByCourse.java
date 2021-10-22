@@ -9,15 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity(name = "requisite_by_course")
 public class RequisiteByCourse {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   private String courseCode;
+
+  @JsonBackReference
   @ManyToOne
   private Discipline discipline;
 
+  @JsonManagedReference
   @OneToMany
   private List<Requisite> requisites;
 
@@ -37,11 +43,19 @@ public class RequisiteByCourse {
     this.courseCode = courseCode;
   }
 
-  public List<Requisite> getrequisites() {
+  public List<Requisite> getRequisites() {
     return requisites;
   }
 
-  public void setrequisites(List<Requisite> requisites) {
+  public void setRequisites(List<Requisite> requisites) {
     this.requisites = requisites;
+  }
+
+  public Discipline getDiscipline() {
+    return discipline;
+  }
+
+  public void setDiscipline(Discipline discipline) {
+    this.discipline = discipline;
   }
 }

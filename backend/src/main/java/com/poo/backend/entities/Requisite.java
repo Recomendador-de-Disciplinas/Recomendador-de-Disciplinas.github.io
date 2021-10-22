@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity(name = "requisite")
 public class Requisite {
   @Id
@@ -14,6 +16,7 @@ public class Requisite {
   private String discipline;
   private String type;
 
+  @JsonBackReference
   @ManyToOne
   private RequisiteByCourse requisiteByCourse;
 
@@ -40,6 +43,14 @@ public class Requisite {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public RequisiteByCourse getRequisiteByCourse() {
+    return requisiteByCourse;
+  }
+
+  public void setRequisiteByCourse(RequisiteByCourse requisiteByCourse) {
+    this.requisiteByCourse = requisiteByCourse;
   }
 
 }
