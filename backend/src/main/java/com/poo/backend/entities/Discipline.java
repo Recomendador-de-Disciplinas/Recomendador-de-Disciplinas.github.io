@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity(name = "discipline")
 public class Discipline {
   @Id
@@ -23,7 +21,6 @@ public class Discipline {
   @ManyToOne
   private Department department;
 
-  @JsonManagedReference
   @OneToMany
   private List<RequisiteByCourse> requisites;
 
@@ -35,6 +32,10 @@ public class Discipline {
     this.name = name;
     this.code = code;
     this.url = url;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getName() {

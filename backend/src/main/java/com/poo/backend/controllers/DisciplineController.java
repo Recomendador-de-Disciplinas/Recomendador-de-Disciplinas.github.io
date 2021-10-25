@@ -2,8 +2,8 @@ package com.poo.backend.controllers;
 
 import java.util.List;
 
-import com.poo.backend.entities.Discipline;
-import com.poo.backend.repositories.DisciplineRepository;
+import com.poo.backend.dto.DisciplineDTO;
+import com.poo.backend.services.DisciplineService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class DisciplineController {
 
   @Autowired
-  private DisciplineRepository repository;
+  private DisciplineService service;
 
   @GetMapping
-  public List<Discipline> findAll() {
-    return repository.findAll();
+  public List<DisciplineDTO> findAll() {
+    return service.findAll();
   }
 }

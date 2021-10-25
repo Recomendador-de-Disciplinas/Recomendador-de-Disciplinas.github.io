@@ -42,7 +42,7 @@ public class FetchDataFromJson {
         return;
       }
 
-      FileReader file = new FileReader("./src/main/resources/ach.json");
+      FileReader file = new FileReader("./src/main/resources/data.json");
       JSONParser parser = new JSONParser();
       JSONArray departments = (JSONArray) parser.parse(file);
 

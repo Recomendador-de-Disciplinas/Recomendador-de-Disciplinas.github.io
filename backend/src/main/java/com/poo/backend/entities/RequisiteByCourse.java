@@ -9,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity(name = "requisite_by_course")
 public class RequisiteByCourse {
   @Id
@@ -19,11 +16,9 @@ public class RequisiteByCourse {
   private Long id;
   private String courseCode;
 
-  @JsonBackReference
   @ManyToOne
   private Discipline discipline;
 
-  @JsonManagedReference
   @OneToMany
   private List<Requisite> requisites;
 
