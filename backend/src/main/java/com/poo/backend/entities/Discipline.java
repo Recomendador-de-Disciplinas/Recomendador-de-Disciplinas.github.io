@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "discipline")
@@ -21,7 +20,6 @@ public class Discipline {
   private String name;
   private String url;
 
-  @JsonBackReference
   @ManyToOne
   private Department department;
 

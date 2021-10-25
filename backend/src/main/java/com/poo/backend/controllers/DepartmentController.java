@@ -2,8 +2,8 @@ package com.poo.backend.controllers;
 
 import java.util.List;
 
-import com.poo.backend.entities.Discipline;
-import com.poo.backend.repositories.DisciplineRepository;
+import com.poo.backend.dto.DepartmentDTO;
+import com.poo.backend.services.DepartmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/disciplines")
-public class DisciplineController {
+@RequestMapping("/departments")
+public class DepartmentController {
 
   @Autowired
-  private DisciplineRepository repository;
+  private DepartmentService service;
 
   @GetMapping
-  public List<Discipline> findAll() {
-    return repository.findAll();
+  public List<DepartmentDTO> findAll() {
+    return service.findAll();
   }
 }

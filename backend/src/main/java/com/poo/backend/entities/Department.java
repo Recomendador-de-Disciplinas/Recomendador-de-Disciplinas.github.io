@@ -8,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity(name = "department")
 public class Department {
   @Id
@@ -19,7 +17,6 @@ public class Department {
   private String name;
   private String url;
 
-  @JsonManagedReference
   @OneToMany
   private List<Discipline> disciplines;
 
@@ -30,6 +27,10 @@ public class Department {
     this.name = name;
     this.code = code;
     this.url = url;
+  }
+
+  public Long getId() {
+    return id;
   }
 
   public String getName() {
@@ -63,5 +64,4 @@ public class Department {
   public void setDisciplines(List<Discipline> disciplines) {
     this.disciplines = disciplines;
   }
-
 }
