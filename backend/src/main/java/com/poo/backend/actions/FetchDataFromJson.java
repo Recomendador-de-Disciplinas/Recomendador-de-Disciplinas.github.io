@@ -37,7 +37,12 @@ public class FetchDataFromJson {
   public void run() {
     System.out.println("\n##### Starting fetch data from JSON #####");
     try {
-      FileReader file = new FileReader("./src/main/resources/data.json");
+      if (!this.emptyDatabase()) {
+        System.out.println("\n##### Database already has data #####");
+        return;
+      }
+
+      FileReader file = new FileReader("./src/main/resources/ach.json");
       JSONParser parser = new JSONParser();
       JSONArray departments = (JSONArray) parser.parse(file);
 
@@ -48,6 +53,11 @@ public class FetchDataFromJson {
     } finally {
       System.out.println("##### Finish fetch data from JSON #####\n");
     }
+  }
+
+  private Boolean emptyDatabase() {
+    return (departmentRepo.count() == 0 || disciplineRepo.count() == 0 || requisiteByCourseRepo.count() == 0
+        || requisiteRepo.count() == 0);
   }
 
   private void generateDepartments(JSONArray departments) {
