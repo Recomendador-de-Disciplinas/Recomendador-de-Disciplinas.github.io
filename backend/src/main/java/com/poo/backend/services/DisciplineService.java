@@ -20,4 +20,9 @@ public class DisciplineService {
     List<Discipline> disciplines = disciplineRepo.findAll();
     return disciplines.stream().map(d -> new DisciplineDTO(d)).collect(Collectors.toList());
   }
+
+  public List<DisciplineDTO> getByDepartments(List<Long> departmentIds) {
+    List<Discipline> disciplines = disciplineRepo.findByDepartments(departmentIds);
+    return disciplines.stream().map(d -> new DisciplineDTO(d)).collect(Collectors.toList());
+  }
 }
