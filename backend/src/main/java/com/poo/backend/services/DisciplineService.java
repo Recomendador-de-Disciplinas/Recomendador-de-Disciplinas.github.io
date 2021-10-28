@@ -1,5 +1,6 @@
 package com.poo.backend.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,17 +13,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DisciplineService {
-  
+
   @Autowired
   private DisciplineRepository disciplineRepo;
 
   public List<DisciplineDTO> findAll() {
     List<Discipline> disciplines = disciplineRepo.findAll();
-    return disciplines.stream().map(d -> new DisciplineDTO(d)).collect(Collectors.toList());
+    return disciplines.stream().map(DisciplineDTO::new).collect(Collectors.toList());
   }
 
-  public List<DisciplineDTO> getByDepartments(List<Long> departmentIds) {
-    List<Discipline> disciplines = disciplineRepo.findByDepartments(departmentIds);
-    return disciplines.stream().map(d -> new DisciplineDTO(d)).collect(Collectors.toList());
+  public List<DisciplineDTO> findAllByDepartmentsId(List<Long> departmentIds) {
+     List<Discipline> disciplines = disciplineRepo.findAllByDepartmentIdIn(departmentIds);
+     return disciplines.stream().map(DisciplineDTO::new).collect(Collectors.toList());
   }
 }

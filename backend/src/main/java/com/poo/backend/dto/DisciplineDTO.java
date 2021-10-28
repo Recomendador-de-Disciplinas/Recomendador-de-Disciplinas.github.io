@@ -3,11 +3,11 @@ package com.poo.backend.dto;
 import com.poo.backend.entities.Discipline;
 
 public class DisciplineDTO {
-  private Long id;
-  private String code;
-  private String name;
-  private String url;
-  private DepartmentDTO department;
+  private final Long id;
+  private final String code;
+  private final String name;
+  private final String url;
+  private final DepartmentDTO department;
 
   public DisciplineDTO(Discipline discipline) {
     this.id = discipline.getId();
@@ -15,6 +15,14 @@ public class DisciplineDTO {
     this.code = discipline.getCode();
     this.url = discipline.getUrl();
     this.department = new DepartmentDTO(discipline.getDepartment());
+  }
+
+  public DisciplineDTO(Long id, String code, String name, String url, DepartmentDTO department) {
+    this.id = id;
+    this.code = code;
+    this.name = name;
+    this.url = url;
+    this.department = department;
   }
 
   public Long getId() {
