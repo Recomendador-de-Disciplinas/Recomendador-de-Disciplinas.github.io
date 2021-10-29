@@ -22,8 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/disciplines")
 public class DisciplineController {
 
-  @Autowired
   private DisciplineService disciplineService;
+
+  @Autowired
+  public DisciplineController(DisciplineService disciplineService) {
+    this.disciplineService = disciplineService;
+  }
 
   @GetMapping
   public List<DisciplineDTO> findAll() {
@@ -41,7 +45,7 @@ public class DisciplineController {
     List<ExtractedResult> results = new ArrayList<>();
     topics.forEach(keyword -> {
       List<ExtractedResult> matches = FuzzySearch.extractAll(keyword, disciplinesNames);
-      matches = matches.stream().filter(match -> match.getScore() > 80).collect(Collectors.toList());
+      matches = matches.stream().filter(match -> match.getScore() > 70).collect(Collectors.toList());
       results.addAll(matches);
     });
 
