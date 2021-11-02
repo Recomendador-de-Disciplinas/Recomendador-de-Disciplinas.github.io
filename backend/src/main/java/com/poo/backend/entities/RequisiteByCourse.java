@@ -15,6 +15,7 @@ public class RequisiteByCourse {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   private String courseCode;
+
   @ManyToOne
   private Discipline discipline;
 
@@ -37,11 +38,19 @@ public class RequisiteByCourse {
     this.courseCode = courseCode;
   }
 
-  public List<Requisite> getrequisites() {
+  public List<Requisite> getRequisites() {
     return requisites;
   }
 
-  public void setrequisites(List<Requisite> requisites) {
+  public void setRequisites(List<Requisite> requisites) {
     this.requisites = requisites;
+  }
+
+  public Discipline getDiscipline() {
+    return discipline;
+  }
+
+  public void setDiscipline(Discipline discipline) {
+    this.discipline = discipline;
   }
 }

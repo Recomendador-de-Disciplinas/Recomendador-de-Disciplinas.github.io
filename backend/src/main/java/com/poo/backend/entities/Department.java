@@ -29,6 +29,10 @@ public class Department {
     this.url = url;
   }
 
+  public Long getId() {
+    return id;
+  }
+
   public String getName() {
     return name;
   }
@@ -60,5 +64,4 @@ public class Department {
   public void setDisciplines(List<Discipline> disciplines) {
     this.disciplines = disciplines;
   }
-
 }

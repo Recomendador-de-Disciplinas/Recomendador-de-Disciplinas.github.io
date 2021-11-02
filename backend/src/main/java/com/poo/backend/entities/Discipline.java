@@ -34,6 +34,10 @@ public class Discipline {
     this.url = url;
   }
 
+  public Long getId() {
+    return id;
+  }
+
   public String getName() {
     return name;
   }
@@ -56,6 +60,14 @@ public class Discipline {
 
   public void setUrl(String url) {
     this.url = url;
+  }
+
+  public Department getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(Department department) {
+    this.department = department;
   }
 
   public List<RequisiteByCourse> getRequisites() {

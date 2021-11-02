@@ -42,4 +42,12 @@ public class Requisite {
     this.type = type;
   }
 
+  public RequisiteByCourse getRequisiteByCourse() {
+    return requisiteByCourse;
+  }
+
+  public void setRequisiteByCourse(RequisiteByCourse requisiteByCourse) {
+    this.requisiteByCourse = requisiteByCourse;
+  }
+
 }
