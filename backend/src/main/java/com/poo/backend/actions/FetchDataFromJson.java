@@ -11,6 +11,7 @@ import com.poo.backend.repositories.DisciplineRepository;
 import com.poo.backend.repositories.RequisiteByCourseRepository;
 import com.poo.backend.repositories.RequisiteRepository;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,8 @@ public class FetchDataFromJson {
         return;
       }
 
-      FileReader file = new FileReader("./src/main/resources/data.json");
+      String currentPath = new File("").getAbsolutePath();
+      FileReader file = new FileReader(currentPath + "/src/main/resources/data.json");
       JSONParser parser = new JSONParser();
       JSONArray departments = (JSONArray) parser.parse(file);
 
