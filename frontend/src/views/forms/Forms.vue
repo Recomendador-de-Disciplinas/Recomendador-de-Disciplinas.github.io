@@ -111,14 +111,21 @@ export default {
       const hasDiscipline = this.disciplines.find(
         (element) => element == this.discipline
       );
-
       if (!hasDiscipline) {
-        this.disciplines.push(this.discipline);
-        this.discipline = '';
+        const disciplineExists = this.disciplinesCodes.find(
+          (element) => element == this.discipline
+        );
+
+        if (disciplineExists) {
+          this.disciplines.push(this.discipline);
+          this.discipline = '';
+        }
       }
     },
     submit() {
       if (this.$refs.form.validate()) {
+        localStorage.clear();
+
         saveClientSide(localStorage, {
           name: this.name,
           disciplines: this.disciplines,

@@ -4,9 +4,7 @@
       v-if="checkData"
       class="d-flex flex-column align-self-center align-center"
     >
-      <h1 class="text-center">
-        Preencha seus dados para visualizar o painel :)
-      </h1>
+      <h1 class="text-center">Preencha seu nome para visualizar o painel :)</h1>
       <v-btn
         class="mt-8 py-7 rounded-lg"
         color="#CEE7CC"
@@ -43,11 +41,7 @@ export default {
   },
   computed: {
     checkData() {
-      return (
-        this.name == '' ||
-        this.disciplines.length == 0 ||
-        this.departments.length == 0
-      );
+      return this.name == '';
     },
     containerClass() {
       let className = 'height-100';
