@@ -17,7 +17,7 @@
         <v-col>
           <v-text-field label="Nome" v-model="name" required clearable />
           <v-autocomplete
-            :items="getCodes"
+            :items="disciplinesCodes"
             label="Disciplinas já cursadas"
             v-model="discipline"
             :rules="rules"
@@ -39,12 +39,20 @@
       <v-row class="px-10">
         <v-col>
           <v-combobox
-            label="Departamentos de interesse"
-            v-model="departments"
+            label="Tópicos de interesse"
+            v-model="topics"
             deletable-chips
             multiple
             small-chips
           ></v-combobox>
+          <v-autocomplete
+            label="Departamentos de interesse"
+            v-model="departments"
+            :items="departmentInfo"
+            deletable-chips
+            multiple
+            small-chips
+          />
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -72,6 +80,7 @@ export default {
     discipline: '',
     disciplines: [],
     departments: [],
+    topics: [],
     rules: [
       (value) =>
         regexDisciplines.test(value) ||
@@ -79,6 +88,7 @@ export default {
         'Formato inválido! Exemplo: MAC0110',
     ],
     allDisciplines: [],
+    allDepartments: [],
   }),
   components: {
     Board,
@@ -87,8 +97,9 @@ export default {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
     this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
     this.departments = JSON.parse(localStorage.getItem('departments')) || [];
-
+    this.topics = JSON.parse(localStorage.getItem('topics')) || [];
     this.getDisciplines();
+    this.getDepartments();
   },
   methods: {
     eraseDiscipline(discipline) {
@@ -112,6 +123,7 @@ export default {
           name: this.name,
           disciplines: this.disciplines,
           departments: this.departments,
+          topics: this.topics,
         });
         this.$router.push('/painel');
       }
@@ -121,10 +133,20 @@ export default {
       const response = await fetch(url + '/disciplines');
       this.allDisciplines = await response.json();
     },
+    async getDepartments() {
+      const url = process.env.BACKEND_URL || 'http://localhost:8080';
+      const response = await fetch(url + '/departments');
+      this.allDepartments = await response.json();
+    },
   },
   computed: {
-    getCodes() {
+    disciplinesCodes() {
       return this.allDisciplines.map((element) => element.code);
+    },
+    departmentInfo() {
+      return this.allDepartments.map(
+        (element) => `${element.code} - ${element.name}`
+      );
     },
   },
 };
