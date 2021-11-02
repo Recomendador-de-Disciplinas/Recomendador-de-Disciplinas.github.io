@@ -16,7 +16,8 @@
       <v-row class="px-10">
         <v-col>
           <v-text-field label="Nome" v-model="name" required clearable />
-          <v-text-field
+          <v-autocomplete
+            :items="getCodes"
             label="Disciplinas já cursadas"
             v-model="discipline"
             :rules="rules"
@@ -77,6 +78,7 @@ export default {
         value == '' ||
         'Formato inválido! Exemplo: MAC0110',
     ],
+    allDisciplines: [],
   }),
   components: {
     Board,
@@ -85,6 +87,8 @@ export default {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
     this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
     this.departments = JSON.parse(localStorage.getItem('departments')) || [];
+
+    this.getDisciplines();
   },
   methods: {
     eraseDiscipline(discipline) {
@@ -93,7 +97,11 @@ export default {
       );
     },
     addDisciplines() {
-      if (regexDisciplines.test(this.discipline)) {
+      const hasDiscipline = this.disciplines.find(
+        (element) => element == this.discipline
+      );
+
+      if (!hasDiscipline) {
         this.disciplines.push(this.discipline);
         this.discipline = '';
       }
@@ -107,6 +115,16 @@ export default {
         });
         this.$router.push('/painel');
       }
+    },
+    async getDisciplines() {
+      const url = process.env.BACKEND_URL || 'http://localhost:8080';
+      const response = await fetch(url + '/disciplines');
+      this.allDisciplines = await response.json();
+    },
+  },
+  computed: {
+    getCodes() {
+      return this.allDisciplines.map((element) => element.code);
     },
   },
 };
