@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-alert v-for="error in errors" :key="error" type="error">{{ error }}</v-alert>
     <v-form ref="form">
       <v-row>
         <v-col align="center">
@@ -66,7 +67,7 @@
 
 <script>
 import Board from '@/components/Board.vue';
-import { saveClientSide } from './forms';
+import Form from './forms';
 
 export default {
   data: () => ({
@@ -77,6 +78,7 @@ export default {
     topics: [],
     allDisciplines: [],
     allDepartments: [],
+    errors: [],
   }),
   components: {
     Board,
@@ -111,21 +113,23 @@ export default {
       }
     },
     submit() {
-      if (this.$refs.form.validate()) {
-        localStorage.clear();
+      const errors = Form.saveClientSide(
+        localStorage,
+        {
+          name: this.name,
+          disciplines: this.disciplines,
+          departments: this.departments,
+          topics: this.topics,
+        },
+        this.allDepartments,
+        this.allDisciplines
+      );
 
-        saveClientSide(
-          localStorage,
-          {
-            name: this.name,
-            disciplines: this.disciplines,
-            departments: this.departments,
-            topics: this.topics,
-          },
-          this.allDepartments,
-          this.allDisciplines
-        );
+      if (!errors || errors.length === 0) {
         this.$router.push('/painel');
+        this.errors = [];
+      } else {
+        this.errors = errors;
       }
     },
     async getDisciplines() {
