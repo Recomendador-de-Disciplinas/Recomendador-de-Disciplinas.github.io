@@ -5,6 +5,7 @@ import com.poo.backend.entities.Discipline;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class DisciplineRepositoryTest {
 
     @Autowired
@@ -38,7 +40,7 @@ class DisciplineRepositoryTest {
         disciplineRepo.saveAll(disciplines);
     }
     @Test
-    void findAllByDepartmentIdIn() {
+    void testFindAllByDepartmentIdIn() {
         setup_findAllByDepartmentIdIn();
         List<Long>ids = List.of(1L, 2L);
         assertEquals(3, disciplineRepo.findAllByDepartmentIdIn(ids).size());
