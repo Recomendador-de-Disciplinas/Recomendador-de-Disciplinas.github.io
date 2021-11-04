@@ -49,5 +49,4 @@ public class Requisite {
   public void setRequisiteByCourse(RequisiteByCourse requisiteByCourse) {
     this.requisiteByCourse = requisiteByCourse;
   }
-
 }

@@ -18,6 +18,6 @@ public class DepartmentService {
 
   public List<DepartmentDTO> findAll() {
     List<Department> departments = departmentRepo.findAll();
-    return departments.stream().map(dep -> new DepartmentDTO(dep)).collect(Collectors.toList());
+    return departments.stream().map(DepartmentDTO::new).collect(Collectors.toList());
   }
 }

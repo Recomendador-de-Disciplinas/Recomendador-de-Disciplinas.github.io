@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/disciplines")
 public class DisciplineController {
 
-  private DisciplineService disciplineService;
+  private final DisciplineService disciplineService;
 
   @Autowired
   public DisciplineController(DisciplineService disciplineService) {
@@ -36,14 +36,20 @@ public class DisciplineController {
 
   @PostMapping(path = "/recommendations")
   public List<DisciplineDTO> getRecommendations(@RequestBody UserInputDTO body) {
-    List<Long>ids = body.getDepartments().stream().map(DepartmentDTO::getId).collect(Collectors.toList());
-    List<DisciplineDTO> disciplines = disciplineService.findAllByDepartmentsId(ids);
+    List<DisciplineDTO> disciplines = disciplinesThatMatchWithDepartments(body.getDepartments());
+    disciplines = disciplinesThatMatchWithKeywords(body.getKeywords(), disciplines);
+    return disciplines;
+  }
 
-    List<String> topics = body.getKeywords();
+  private List<DisciplineDTO> disciplinesThatMatchWithDepartments(List<DepartmentDTO> departments) {
+    List<Long> ids = departments.stream().map(DepartmentDTO::getId).collect(Collectors.toList());
+    return disciplineService.findAllByDepartmentsId(ids);
+  }
+
+  private List<DisciplineDTO> disciplinesThatMatchWithKeywords(List<String> keywords, List<DisciplineDTO> disciplines) {
     List<String> disciplinesNames = disciplines.stream().map(DisciplineDTO::getName).collect(Collectors.toList());
-
     List<ExtractedResult> results = new ArrayList<>();
-    topics.forEach(keyword -> {
+    keywords.forEach(keyword -> {
       List<ExtractedResult> matches = FuzzySearch.extractAll(keyword, disciplinesNames);
       matches = matches.stream().filter(match -> match.getScore() > 70).collect(Collectors.toList());
       results.addAll(matches);

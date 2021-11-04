@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -54,7 +53,6 @@ class DisciplineControllerTest {
 
     expected.sort(Comparator.comparing(DisciplineDTO::getName));
     result.sort(Comparator.comparing(DisciplineDTO::getName));
-
     Assertions.assertEquals(expected.toString(), result.toString());
   }
 }

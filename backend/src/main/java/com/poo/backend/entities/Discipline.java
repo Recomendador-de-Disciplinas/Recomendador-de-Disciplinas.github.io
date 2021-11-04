@@ -77,5 +77,4 @@ public class Discipline {
   public void setRequisites(List<RequisiteByCourse> requisites) {
     this.requisites = requisites;
   }
-
 }
