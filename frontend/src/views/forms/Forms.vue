@@ -24,7 +24,7 @@
           />
         </v-col>
         <v-col>
-          <Board :disciplines="disciplinesSelected" @erase="eraseDiscipline" />
+          <Board :disciplines="disciplines" @erase="eraseDiscipline" />
         </v-col>
       </v-row>
       <v-row>
@@ -85,13 +85,23 @@ export default {
   },
   mounted() {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
-    this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
-    this.departments = JSON.parse(localStorage.getItem('departments')) || [];
     this.topics = JSON.parse(localStorage.getItem('topics')) || [];
-    this.getDisciplines();
-    this.getDepartments();
+
+    this.getSavedDisciplines();
+    this.getSavedDepartments();
+
+    this.getAllDisciplines();
+    this.getAllDepartments();
   },
   methods: {
+    getSavedDisciplines() {
+      const disciplineObjects = JSON.parse(localStorage.getItem('disciplines')) || [];
+      this.disciplines = disciplineObjects.map((disc) => disc.code);
+    },
+    getSavedDepartments() {
+      const departmentObjects = JSON.parse(localStorage.getItem('departments')) || [];
+      this.departments = departmentObjects.map((dep) => `${dep.code} - ${dep.name}`);
+    },
     eraseDiscipline(discipline) {
       this.disciplines = this.disciplines.filter(
         (element) => discipline != element
@@ -132,12 +142,12 @@ export default {
         this.errors = errors;
       }
     },
-    async getDisciplines() {
+    async getAllDisciplines() {
       const url = process.env.BACKEND_URL || 'http://localhost:8080';
       const response = await fetch(url + '/disciplines');
       this.allDisciplines = await response.json();
     },
-    async getDepartments() {
+    async getAllDepartments() {
       const url = process.env.BACKEND_URL || 'http://localhost:8080';
       const response = await fetch(url + '/departments');
       this.allDepartments = await response.json();
@@ -151,9 +161,6 @@ export default {
       return this.allDepartments.map(
         (element) => `${element.code} - ${element.name}`
       );
-    },
-    disciplinesSelected() {
-      return this.disciplines.map((element) => element.code);
     },
   },
   watch: {
