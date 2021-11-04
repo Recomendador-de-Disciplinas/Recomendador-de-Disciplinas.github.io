@@ -22,6 +22,11 @@
   ],
   "rules": {
     "prettier/prettier": "error"
+  },
+  "settings": {
+    "jest": {
+      "version": 27
+    }
   }
 }
 

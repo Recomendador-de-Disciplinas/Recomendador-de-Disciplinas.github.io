@@ -4,7 +4,9 @@
       v-if="checkData"
       class="d-flex flex-column align-self-center align-center"
     >
-      <h1 class="text-center">Preencha seu nome para visualizar o painel :)</h1>
+      <h1 class="text-center">
+        Preencha seus dados para visualizar o painel :)
+      </h1>
       <v-btn
         class="mt-8 py-7 rounded-lg"
         color="#CEE7CC"
@@ -15,8 +17,9 @@
       >
     </v-container>
     <div v-else>
-      <v-row class="my-4">
+      <v-row class="my-4 flex flex-column">
         <h1 class="mx-2">{{ name }}</h1>
+        <p class="mx-2">Topicos de interesse {{ keywords }}</p>
       </v-row>
       <v-row><Tabs /></v-row>
     </div>
@@ -33,13 +36,14 @@ export default {
     name: '',
     disciplines: '',
     departments: '',
+    keywords: '',
   }),
   mounted() {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
     this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
     this.departments = JSON.parse(localStorage.getItem('departments')) || [];
+    this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
   },
-  created() {},
   computed: {
     checkData() {
       return this.name == '';
@@ -48,6 +52,9 @@ export default {
       let className = 'height-100';
       if (this.checkData) className += ' d-flex';
       return className;
+    },
+    keywordsNames() {
+      return this.keywords.join(', ');
     },
   },
 };

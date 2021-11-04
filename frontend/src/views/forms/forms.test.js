@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import Form from './forms';
 
 describe(Form.saveClientSide, () => {
@@ -17,7 +18,7 @@ describe(Form.saveClientSide, () => {
       name: '',
       disciplines: [],
       departments: ['MAC - Departamento de Ciência da Computação'],
-      topics: [],
+      keywords: [],
     };
     const errors = Form.saveClientSide(
       storageMock,
@@ -26,8 +27,7 @@ describe(Form.saveClientSide, () => {
       allDisciplines
     );
 
-    expect(errors.length).toBe(3);
-    expect(storageMock.setItem).not.toHaveBeenCalled();
+    expect(errors.length).toBe(2);
   });
 
   it('should not call setItem from storage when info is not valid', () => {
@@ -35,7 +35,7 @@ describe(Form.saveClientSide, () => {
       name: '',
       disciplines: [],
       departments: ['MAC - Departamento de Ciência da Computação'],
-      topics: [],
+      keywords: [],
     };
     Form.saveClientSide(storageMock, info, allDepartments, allDisciplines);
 
@@ -48,9 +48,10 @@ describe(Form.saveClientSide, () => {
       name: 'Erick',
       disciplines: ['MAC0444'],
       departments: ['MAC - Departamento de Ciência da Computação'],
-      topics: ['Computação'],
+      keywords: ['Computação'],
     };
     Form.saveClientSide(storageMock, info, allDepartments, allDisciplines);
+
     expect(storageMock.clear).toHaveBeenCalledTimes(1);
     expect(storageMock.setItem).toHaveBeenCalledTimes(4);
   });

@@ -53,7 +53,7 @@ export default {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
     this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
     this.departments = JSON.parse(localStorage.getItem('departments')) || [];
-    this.keywords = JSON.parse(localStorage.getItem('topics')) || [];
+    this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
     this.getRecommendations();
   },
   computed: {

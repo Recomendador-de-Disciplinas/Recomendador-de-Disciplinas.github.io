@@ -1,16 +1,15 @@
 export default class Form {
   static validateFields(payload) {
-    const { name, disciplines, departments, topics } = payload;
+    const { name, departments, keywords } = payload;
     const errors = [];
 
     if (!name.trim()) errors.push('É necessário informar seu nome');
-    if (disciplines.length === 0)
-      errors.push('É necessário informar pelo menos uma disciplina já cursada');
+
     if (departments.length === 0)
       errors.push(
         'É necessário informar ao menos um departamento de interesse'
       );
-    if (topics.length === 0)
+    if (keywords.length === 0)
       errors.push('É necessário informar ao menos um tópico de interesse');
 
     return {
@@ -24,7 +23,7 @@ export default class Form {
 
     if (!isValid) return errors;
 
-    const { name, disciplines, departments, topics } = info;
+    const { name, disciplines, departments, keywords } = info;
 
     storage.clear();
 
@@ -40,7 +39,7 @@ export default class Form {
       name,
       disciplines: selectedDisciplines,
       departments: selectedDepartments,
-      topics,
+      keywords,
     };
 
     Object.keys(info).forEach((field) => {

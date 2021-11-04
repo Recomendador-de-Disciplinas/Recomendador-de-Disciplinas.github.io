@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <v-alert v-for="error in errors" :key="error" type="error">{{ error }}</v-alert>
+    <v-alert v-for="error in errors" :key="error" type="error">{{
+      error
+    }}</v-alert>
     <v-form ref="form">
       <v-row>
         <v-col align="center">
@@ -37,7 +39,7 @@
         <v-col>
           <v-combobox
             label="Tópicos de interesse"
-            v-model="topics"
+            v-model="keywords"
             deletable-chips
             multiple
             small-chips
@@ -75,7 +77,7 @@ export default {
     discipline: '',
     disciplines: [],
     departments: [],
-    topics: [],
+    keywords: [],
     allDisciplines: [],
     allDepartments: [],
     errors: [],
@@ -85,7 +87,7 @@ export default {
   },
   mounted() {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
-    this.topics = JSON.parse(localStorage.getItem('topics')) || [];
+    this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
 
     this.getSavedDisciplines();
     this.getSavedDepartments();
@@ -95,12 +97,16 @@ export default {
   },
   methods: {
     getSavedDisciplines() {
-      const disciplineObjects = JSON.parse(localStorage.getItem('disciplines')) || [];
+      const disciplineObjects =
+        JSON.parse(localStorage.getItem('disciplines')) || [];
       this.disciplines = disciplineObjects.map((disc) => disc.code);
     },
     getSavedDepartments() {
-      const departmentObjects = JSON.parse(localStorage.getItem('departments')) || [];
-      this.departments = departmentObjects.map((dep) => `${dep.code} - ${dep.name}`);
+      const departmentObjects =
+        JSON.parse(localStorage.getItem('departments')) || [];
+      this.departments = departmentObjects.map(
+        (dep) => `${dep.code} - ${dep.name}`
+      );
     },
     eraseDiscipline(discipline) {
       this.disciplines = this.disciplines.filter(
@@ -129,7 +135,7 @@ export default {
           name: this.name,
           disciplines: this.disciplines,
           departments: this.departments,
-          topics: this.topics,
+          keywords: this.keywords,
         },
         this.allDepartments,
         this.allDisciplines
