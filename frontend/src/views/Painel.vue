@@ -19,7 +19,8 @@
     <div v-else>
       <v-row class="my-4 flex flex-column">
         <h1 class="mx-2">{{ name }}</h1>
-        <p class="mx-2">Topicos de interesse {{ keywords }}</p>
+        <p class="mx-2">Topicos de interesse: {{ keywordsNames }}</p>
+        <p class="mx-2">Departamentos de interesse: {{ departmentInfos }}</p>
       </v-row>
       <v-row><Tabs /></v-row>
     </div>
@@ -55,6 +56,9 @@ export default {
     },
     keywordsNames() {
       return this.keywords.join(', ');
+    },
+    departmentInfos() {
+      return this.departments.map((dep) => dep.code).join(', ');
     },
   },
 };

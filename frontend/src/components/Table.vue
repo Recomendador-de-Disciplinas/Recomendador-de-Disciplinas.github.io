@@ -2,14 +2,8 @@
   <v-row class="transparent">
     <v-col class="border mx-2 d-flex flex-column rounded-lg">
       <h2 class="mb-4">Disciplinas cursadas</h2>
-      <v-chip class="mb-2" v-for="(discipline, i) in disciplinesCodes" :key="i">
+      <v-chip class="mb-2" v-for="(discipline, i) in disciplinesInfo" :key="i">
         {{ discipline }}
-      </v-chip>
-    </v-col>
-    <v-col class="border mx-2 d-flex flex-column rounded-lg">
-      <h2 class="mb-4">Departamentos desejados</h2>
-      <v-chip class="mb-2" v-for="(department, i) in departmentInfo" :key="i">
-        {{ department }}
       </v-chip>
     </v-col>
     <v-col class="border mx-2 d-flex flex-column rounded-lg">
@@ -57,11 +51,8 @@ export default {
     this.getRecommendations();
   },
   computed: {
-    disciplinesCodes() {
-      return this.disciplines.map((element) => element.code);
-    },
-    departmentInfo() {
-      return this.departments.map(
+    disciplinesInfo() {
+      return this.disciplines.map(
         (element) => `${element.code} - ${element.name}`
       );
     },
