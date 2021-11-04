@@ -20,14 +20,10 @@
             :items="disciplinesCodes"
             label="Disciplinas já cursadas"
             v-model="discipline"
-            :rules="rules"
-            persistent-hint
-            hint="Formato: MAC0110"
-            @keydown.enter="addDisciplines"
           />
         </v-col>
         <v-col>
-          <Board :disciplines="disciplines" @erase="eraseDiscipline" />
+          <Board :disciplines="disciplinesSelected" @erase="eraseDiscipline" />
         </v-col>
       </v-row>
       <v-row>
@@ -72,8 +68,6 @@
 import Board from '@/components/Board.vue';
 import { saveClientSide } from './forms';
 
-const regexDisciplines = /^\D{3}\d{4}$/;
-
 export default {
   data: () => ({
     name: '',
@@ -81,12 +75,6 @@ export default {
     disciplines: [],
     departments: [],
     topics: [],
-    rules: [
-      (value) =>
-        regexDisciplines.test(value) ||
-        value == '' ||
-        'Formato inválido! Exemplo: MAC0110',
-    ],
     allDisciplines: [],
     allDepartments: [],
   }),
@@ -107,7 +95,7 @@ export default {
         (element) => discipline != element
       );
     },
-    addDisciplines() {
+    addDiscipline() {
       const hasDiscipline = this.disciplines.find(
         (element) => element == this.discipline
       );
@@ -126,12 +114,17 @@ export default {
       if (this.$refs.form.validate()) {
         localStorage.clear();
 
-        saveClientSide(localStorage, {
-          name: this.name,
-          disciplines: this.disciplines,
-          departments: this.departments,
-          topics: this.topics,
-        });
+        saveClientSide(
+          localStorage,
+          {
+            name: this.name,
+            disciplines: this.disciplines,
+            departments: this.departments,
+            topics: this.topics,
+          },
+          this.allDepartments,
+          this.allDisciplines
+        );
         this.$router.push('/painel');
       }
     },
@@ -154,6 +147,14 @@ export default {
       return this.allDepartments.map(
         (element) => `${element.code} - ${element.name}`
       );
+    },
+    disciplinesSelected() {
+      return this.disciplines.map((element) => element.code);
+    },
+  },
+  watch: {
+    discipline() {
+      this.addDiscipline();
     },
   },
 };

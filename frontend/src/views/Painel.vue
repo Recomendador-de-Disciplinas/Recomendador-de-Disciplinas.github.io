@@ -39,6 +39,7 @@ export default {
     this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
     this.departments = JSON.parse(localStorage.getItem('departments')) || [];
   },
+  created() {},
   computed: {
     checkData() {
       return this.name == '';
