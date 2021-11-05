@@ -18,9 +18,15 @@
     </v-container>
     <div v-else>
       <v-row class="my-4 flex flex-column">
-        <h1 class="mx-2">{{ name }}</h1>
-        <p class="mx-2">Topicos de interesse: {{ keywordsNames }}</p>
-        <p class="mx-2">Departamentos de interesse: {{ departmentInfos }}</p>
+        <h1 class="mx-2 mb-1 font-weight-regular text-h4">{{ name }}</h1>
+        <div>
+          <p class="mx-2 mb-0 text--secondary text-subtitle">
+            Topicos de interesse: {{ keywordsNames }}
+          </p>
+          <p class="mx-2 mb-0 text--secondary text-subtitle">
+            Departamentos de interesse: {{ departmentInfos }}
+          </p>
+        </div>
       </v-row>
       <v-row><Tabs /></v-row>
     </div>
@@ -71,5 +77,9 @@ export default {
 
 .border {
   border: 1px solid black;
+}
+
+.color-grey {
+  color: #868b8e;
 }
 </style>
