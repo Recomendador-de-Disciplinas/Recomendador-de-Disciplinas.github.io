@@ -1,7 +1,7 @@
 <template>
-  <v-container :class="containerClass">
+  <v-container :class="panelContainerClass">
     <v-container
-      v-if="checkData"
+      v-if="checkIfUserFilledData"
       class="d-flex flex-column align-self-center align-center"
     >
       <h1 class="text-center">
@@ -21,14 +21,19 @@
         <h1 class="mx-2 mb-1 font-weight-regular text-h4">{{ name }}</h1>
         <div>
           <p class="mx-2 mb-0 text--secondary text-subtitle">
-            Topicos de interesse: {{ keywordsNames }}
+            Topicos de interesse: {{ displayKeywords }}
           </p>
           <p class="mx-2 mb-0 text--secondary text-subtitle">
-            Departamentos de interesse: {{ departmentInfos }}
+            Departamentos de interesse: {{ displayDepartments }}
           </p>
         </div>
       </v-row>
-      <v-row><Tabs /></v-row>
+      <v-row>
+        <Tabs
+          :disciplines="displayDisciplines"
+          :recommendations="displayRecommendations"
+        />
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -41,30 +46,64 @@ export default {
   },
   data: () => ({
     name: '',
-    disciplines: '',
-    departments: '',
-    keywords: '',
+    disciplines: [],
+    departments: [],
+    keywords: [],
+    recommendations: [],
   }),
   mounted() {
-    this.name = JSON.parse(localStorage.getItem('name')) || '';
-    this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
-    this.departments = JSON.parse(localStorage.getItem('departments')) || [];
-    this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
+    this.getDataFromStorage();
+    this.getRecommendations();
   },
   computed: {
-    checkData() {
+    checkIfUserFilledData() {
       return this.name == '';
     },
-    containerClass() {
+    panelContainerClass() {
       let className = 'height-100';
-      if (this.checkData) className += ' d-flex';
+      if (this.checkIfUserFilledData) className += ' d-flex';
       return className;
     },
-    keywordsNames() {
+    displayDisciplines() {
+      return this.disciplines.map(
+        (element) => `${element.code} - ${element.name}`
+      );
+    },
+    displayDepartments() {
+      return this.departments.map((dep) => dep.code).join(', ');
+    },
+    displayKeywords() {
       return this.keywords.join(', ');
     },
-    departmentInfos() {
-      return this.departments.map((dep) => dep.code).join(', ');
+    displayRecommendations() {
+      return this.recommendations.map(
+        (element) => `${element.code} - ${element.name}`
+      );
+    },
+  },
+  methods: {
+    getDataFromStorage() {
+      this.name = JSON.parse(localStorage.getItem('name')) || '';
+      this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
+      this.departments = JSON.parse(localStorage.getItem('departments')) || [];
+      this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
+    },
+    async getRecommendations() {
+      const url = process.env.BACKEND_URL || 'http://localhost:8080';
+
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+
+      const body = await fetch(url + '/disciplines/recommendations', {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({
+          departments: this.departments,
+          keywords: this.keywords,
+        }),
+      });
+
+      this.recommendations = await body.json();
     },
   },
 };

@@ -2,7 +2,7 @@
   <v-row class="transparent">
     <v-col class="border mx-2 d-flex flex-column rounded-lg">
       <h2 class="mb-4">Disciplinas cursadas</h2>
-      <v-chip class="mb-2" v-for="(discipline, i) in disciplinesInfo" :key="i">
+      <v-chip class="mb-2" v-for="(discipline, i) in disciplines" :key="i">
         {{ discipline }}
       </v-chip>
     </v-col>
@@ -10,7 +10,7 @@
       <h2 class="mb-4">Disciplinas Recomendadas</h2>
       <v-chip
         class="mb-2"
-        v-for="(recommendation, i) in recommendationsInfo"
+        v-for="(recommendation, i) in recommendations"
         :key="i"
       >
         {{ recommendation }}
@@ -21,48 +21,15 @@
 
 <script>
 export default {
-  data: () => ({
-    disciplines: [],
-    departments: [],
-    recommendations: [],
-  }),
-  methods: {
-    async getRecommendations() {
-      const url = process.env.BACKEND_URL || 'http://localhost:8080';
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      const body = await fetch(url + '/disciplines/recommendations', {
-        headers,
-        method: 'POST',
-        body: JSON.stringify({
-          departments: this.departments,
-          keywords: this.keywords,
-        }),
-      });
-      this.recommendations = await body.json();
-      console.log(this.recommendations);
+  props: {
+    disciplines: {
+      type: Array,
+      required: true,
     },
-  },
-  mounted() {
-    this.name = JSON.parse(localStorage.getItem('name')) || '';
-    this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
-    this.departments = JSON.parse(localStorage.getItem('departments')) || [];
-    this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
-    this.getRecommendations();
-  },
-  computed: {
-    disciplinesInfo() {
-      return this.disciplines.map(
-        (element) => `${element.code} - ${element.name}`
-      );
-    },
-    recommendationsInfo() {
-      return this.recommendations.map(
-        (element) => `${element.code} - ${element.name}`
-      );
+    recommendations: {
+      type: Array,
+      required: true,
     },
   },
 };
 </script>
-
-<style></style>
