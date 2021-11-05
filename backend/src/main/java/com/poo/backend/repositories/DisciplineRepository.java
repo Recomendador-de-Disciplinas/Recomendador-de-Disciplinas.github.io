@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DisciplineRepository extends JpaRepository<Discipline, Long> {
 
-   List<Discipline> findAllByDepartmentIdIn(List<Long> ids);
+    List<Discipline> findAllByDepartmentIdIn(List<Long> ids);
 }

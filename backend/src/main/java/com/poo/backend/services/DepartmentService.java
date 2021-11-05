@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class DepartmentService {
 
-  @Autowired
-  private DepartmentRepository departmentRepo;
+    @Autowired
+    private DepartmentRepository departmentRepo;
 
-  public List<DepartmentDTO> findAll() {
-    List<Department> departments = departmentRepo.findAll();
-    return departments.stream().map(DepartmentDTO::new).collect(Collectors.toList());
-  }
+    public List<DepartmentDTO> findAll() {
+        List<Department> departments = departmentRepo.findAll();
+        return departments.stream().map(DepartmentDTO::new).collect(Collectors.toList());
+    }
 }
