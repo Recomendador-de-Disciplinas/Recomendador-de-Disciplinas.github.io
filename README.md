@@ -2,6 +2,7 @@
 
 Projeto da disciplina MAC0413 - Tópicos Avançados de Programação Orientada a Objetos.
 
+- [Esboço](#esboço)
 - [Fase 1](#fase-1)
 - [Fase 2](#fase-2)
 - [Fase 3](#fase-4)
@@ -35,7 +36,6 @@ $> docker-compose up --build
 
 O frontend estará em `localhost:3000`
 
-
 ### Backend
 
 É necessário configurar dentro do diretório `/backend` um arquivo `.env` com as variáveis de ambiente necessárias para executar o `backend` e o `db`.
@@ -49,12 +49,14 @@ $> docker-compose up --build
 
 O backend estará em `localhost:8080`
 
+## Esboço
+
+Durante todas as fases do projeto estamos aprimorando um esboço no figma da inteface do usuário. Este esboço pode ser acessado neste [link](https://www.figma.com/file/IN8LL77pqYjyt3lOFh9Qla).
+
 ## Fase 1
 
-Esboço:
-https://www.figma.com/file/IN8LL77pqYjyt3lOFh9Qla
+Para a primeira fase, focamos somente no frontend, utilizando as seguintes ferramentas:
 
-Para a primeira fase, focamos somente no front-end, utilizando as seguintes ferramentas:
 - Vue
 - Vuetify
 - LocalStorage
@@ -71,13 +73,41 @@ Requisito 1) Por meio da página do formulário, conseguimos cadastrar e editar 
 Requisito 2) Por meio do mesmo formulário, o usuário pode visualizar, remover e editar as suas informações, tudo de uma forma muito agradável e fluida.
 
 | ![contribuicao_fase_1](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_1.png) |
-|:--:|
-| **Contribuições no período 14/09 - 14/10**|
-| Da esquerda para a direita: Thiago: 24, Francisco: 15, Erick: 14, Vinicius: 14 e Daniel: 9 |
+| :----------------------------------------------------------------------------------------------------------: |
+|                                  **Contribuições no período 14/09 - 14/10**                                  |
+|          Da esquerda para a direita: Thiago: 24, Francisco: 15, Erick: 14, Vinicius: 14 e Daniel: 9          |
 
 ## Fase 2
 
-_Em progresso..._
+Para a segunda fase, trabalhamos principalmente em começar o backend. As ferramentas mais importantes utilizadas foram:
+
+- Spring Boot
+- Spring Data JPA
+- JUnit
+- postgreSQL
+
+Decidimos utilizar o Spring Boot por conta do seu grande suporte no desenvolvimento de bons sistemas orientados à objetos, seu suporte no desenvolvimento de aplicações RESTful e também pelo seu grande ecossistema. Com isso, temos um _framework_ que nos auxilia muito na implementação das camadas de Model e Controller da arquitetura MVC. Uma dessas ferramentas do ecossistema do spring é o Spring Data JPA, ele fornece uma interface simples para implementar a camada de acesso aos dados no banco de dados. A arquitetura da aplicação está explícita na figura abaixo.
+
+![architecture](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/architecture.png)
+
+Os dados armazenados no banco de dados são gerados através do tratamento do conteúdo fornecido pelo [crawler](https://github.com/T-Guerrero/usp-disciplines-crawler) implementado como presente para a comunidade por um dos integrantes do grupo. Este _crawler_ coleta dados fornecidos pelo [jupiterweb](https://uspdigital.usp.br/jupiterweb/) e armazena os mesmos em um arquivo JSON. Portanto, a definição das entidades do backend está fortemente acoplada com a estrutura desses dados neste arquivo. A figura abaixo mostra esta estrutura.
+
+![crawler_structure](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/crawler.jpg)
+
+Para manter a consistência entre essas entidades e também para utilizar o Spring Data JPA, escolhemos utilizar um banco de dados relacional. O postgreSQL foi escolhido por conta da familiaridade do grupo com o mesmo.
+
+Por fim, utilizamos o JUnit para fazer alguns testes em cima das funcionalidades implementadas no backend.
+
+Requisito 1) Como comentamos na etapa anterior, agora não é mais necessário inserir as disciplinas e os departamentos de interesse de forma manual. Para isso, utilizamos rotas do backend para mostrar todas as opções possíveis através dos dados do _jupiterweb_.
+
+Requisito 3)
+
+Requisito 4) Para este fim, implementamos uma rota `POST` no backend que recebe quais são os departamentos de interesse e as palavras-chave digitadas e retorna uma lista de disciplinas recomendadas. Para fazer a comparação das disciplinas com as palavras-chave, implementamos um sistema de [fuzzy search](https://en.wikipedia.org/wiki/Approximate_string_matching) que compara cada palavra-chave com o título de cada disciplina das unidades indicadas. Se o algoritmo reconhecer 70% de similaridade entre as palavras, colocamos a discplina na lista de recomendadas.
+
+| ![contribuicao_fase_2](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_2.png) |
+| :----------------------------------------------------------------------------------------------------------: |
+|                                  **Contribuições no período 05/10 - 05/11**                                  |
+|          Da esquerda para a direita: Erick: 34, Thiago: 31, Francisco: 17, Daniel: 16, Vinicius: 13          |
 
 ## Fase 3
 
