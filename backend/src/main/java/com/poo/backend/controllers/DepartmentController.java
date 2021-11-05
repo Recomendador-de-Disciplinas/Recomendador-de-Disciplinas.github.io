@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/departments")
 public class DepartmentController {
 
-  @Autowired
-  private DepartmentService service;
+    @Autowired
+    private DepartmentService service;
 
-  @GetMapping
-  public List<DepartmentDTO> findAll() {
-    return service.findAll();
-  }
+    @GetMapping
+    public List<DepartmentDTO> findAll() {
+        return service.findAll();
+    }
 }
