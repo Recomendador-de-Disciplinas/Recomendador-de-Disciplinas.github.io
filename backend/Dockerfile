@@ -1,15 +1,13 @@
-FROM gradle:7.2.0-jdk11 AS build
+FROM adoptopenjdk/openjdk11:alpine
+
+ENV PORT=8080
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN gradle build --no-daemon -x test
+RUN ./gradlew jar
 
-FROM adoptopenjdk/openjdk11:jre11u-alpine-nightly
+EXPOSE ${PORT}
 
-COPY --from=build /usr/src/app/build/libs/backend-0.0.1-SNAPSHOT.jar app.jar
-
-USER root
-
-CMD ["java", "-jar", "app.jar"]
+CMD ./gradlew bootRun

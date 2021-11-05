@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-alert v-for="error in errors" :key="error" type="error">{{
+      error
+    }}</v-alert>
     <v-form ref="form">
       <v-row>
         <v-col align="center">
@@ -16,13 +19,10 @@
       <v-row class="px-10">
         <v-col>
           <v-text-field label="Nome" v-model="name" required clearable />
-          <v-text-field
+          <v-autocomplete
+            :items="disciplinesCodes"
             label="Disciplinas já cursadas"
             v-model="discipline"
-            :rules="rules"
-            persistent-hint
-            hint="Formato: MAC0110"
-            @keydown.enter="addDisciplines"
           />
         </v-col>
         <v-col>
@@ -38,12 +38,20 @@
       <v-row class="px-10">
         <v-col>
           <v-combobox
-            label="Departamentos de interesse"
-            v-model="departments"
+            label="Tópicos de interesse"
+            v-model="keywords"
             deletable-chips
             multiple
             small-chips
           ></v-combobox>
+          <v-autocomplete
+            label="Departamentos de interesse"
+            v-model="departments"
+            :items="departmentInfo"
+            deletable-chips
+            multiple
+            small-chips
+          />
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -61,9 +69,7 @@
 
 <script>
 import Board from '@/components/Board.vue';
-import { saveClientSide } from './forms';
-
-const regexDisciplines = /^\D{3}\d{4}$/;
+import Form from './forms';
 
 export default {
   data: () => ({
@@ -71,42 +77,101 @@ export default {
     discipline: '',
     disciplines: [],
     departments: [],
-    rules: [
-      (value) =>
-        regexDisciplines.test(value) ||
-        value == '' ||
-        'Formato inválido! Exemplo: MAC0110',
-    ],
+    keywords: [],
+    allDisciplines: [],
+    allDepartments: [],
+    errors: [],
   }),
   components: {
     Board,
   },
   mounted() {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
-    this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
-    this.departments = JSON.parse(localStorage.getItem('departments')) || [];
+    this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
+
+    this.getSavedDisciplines();
+    this.getSavedDepartments();
+
+    this.getAllDisciplines();
+    this.getAllDepartments();
   },
   methods: {
+    getSavedDisciplines() {
+      const disciplineObjects =
+        JSON.parse(localStorage.getItem('disciplines')) || [];
+      this.disciplines = disciplineObjects.map((disc) => disc.code);
+    },
+    getSavedDepartments() {
+      const departmentObjects =
+        JSON.parse(localStorage.getItem('departments')) || [];
+      this.departments = departmentObjects.map(
+        (dep) => `${dep.code} - ${dep.name}`
+      );
+    },
     eraseDiscipline(discipline) {
       this.disciplines = this.disciplines.filter(
         (element) => discipline != element
       );
     },
-    addDisciplines() {
-      if (regexDisciplines.test(this.discipline)) {
-        this.disciplines.push(this.discipline);
-        this.discipline = '';
+    addDiscipline() {
+      const hasDiscipline = this.disciplines.find(
+        (element) => element == this.discipline
+      );
+      if (!hasDiscipline) {
+        const disciplineExists = this.disciplinesCodes.find(
+          (element) => element == this.discipline
+        );
+
+        if (disciplineExists) {
+          this.disciplines.push(this.discipline);
+          this.discipline = '';
+        }
       }
     },
     submit() {
-      if (this.$refs.form.validate()) {
-        saveClientSide(localStorage, {
+      const errors = Form.saveClientSide(
+        localStorage,
+        {
           name: this.name,
           disciplines: this.disciplines,
           departments: this.departments,
-        });
+          keywords: this.keywords,
+        },
+        this.allDepartments,
+        this.allDisciplines
+      );
+
+      if (!errors || errors.length === 0) {
         this.$router.push('/painel');
+        this.errors = [];
+      } else {
+        this.errors = errors;
       }
+    },
+    async getAllDisciplines() {
+      const url = process.env.BACKEND_URL || 'http://localhost:8080';
+      const response = await fetch(url + '/disciplines');
+      this.allDisciplines = await response.json();
+    },
+    async getAllDepartments() {
+      const url = process.env.BACKEND_URL || 'http://localhost:8080';
+      const response = await fetch(url + '/departments');
+      this.allDepartments = await response.json();
+    },
+  },
+  computed: {
+    disciplinesCodes() {
+      return this.allDisciplines.map((element) => element.code);
+    },
+    departmentInfo() {
+      return this.allDepartments.map(
+        (element) => `${element.code} - ${element.name}`
+      );
+    },
+  },
+  watch: {
+    discipline() {
+      this.addDiscipline();
     },
   },
 };

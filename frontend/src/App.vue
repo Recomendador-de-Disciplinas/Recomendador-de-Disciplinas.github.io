@@ -13,8 +13,8 @@ export default {
   data: () => ({
     paths: [
       { name: 'Home', url: '/' },
-      { name: 'Meu Painel', url: '/painel' },
       { name: 'Dados', url: '/forms' },
+      { name: 'Meu Painel', url: '/painel' },
     ],
   }),
 };

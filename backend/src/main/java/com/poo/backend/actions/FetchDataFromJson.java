@@ -43,8 +43,8 @@ public class FetchDataFromJson {
         return;
       }
 
-      String currentPath = new File("").getAbsolutePath();
-      FileReader file = new FileReader(currentPath + "/src/main/resources/data.json");
+      FileReader file = new FileReader("./src/main/resources/data.json");
+
       JSONParser parser = new JSONParser();
       JSONArray departments = (JSONArray) parser.parse(file);
 
