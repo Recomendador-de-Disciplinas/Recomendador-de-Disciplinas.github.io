@@ -49,7 +49,7 @@ public class FetchDataFromJson {
                 return;
             }
             JSONArray departments = readFile();
-            generateDepartments(departments);
+            processEntities(departments);
 
         } catch (Exception e) {
             System.out.println("ERROR:" + e.getMessage());
@@ -70,27 +70,26 @@ public class FetchDataFromJson {
                 || requisiteRepo.count() == 0);
     }
 
-    private void generateDepartments(JSONArray departments) {
+    private void processEntities(JSONArray departments) {
         List<Department> data = new ArrayList<>();
-        for (int i = 0; i < departments.size(); i++) {
-            JSONObject rawDepartment = (JSONObject) departments.get(i);
+        for (Object dep : departments) {
+            JSONObject departmentJson = (JSONObject) dep;
 
             String name, code, url;
-            name = (String) rawDepartment.get("name");
-            code = (String) rawDepartment.get("code");
-            url = (String) rawDepartment.get("url");
+            name = (String) departmentJson.get("name");
+            code = (String) departmentJson.get("code");
+            url = (String) departmentJson.get("url");
             Department department = new Department(name, code, url);
 
             data.add(department);
-
         }
 
         departmentRepo.saveAll(data);
 
         for (int i = 0; i < departments.size(); i++) {
-            JSONObject rawDepartment = (JSONObject) departments.get(i);
+            JSONObject departmentJson = (JSONObject) departments.get(i);
             Department department = data.get(i);
-            List<Discipline> disciplines = generateDisciplines((JSONArray) rawDepartment.get("disciplines"), department);
+            List<Discipline> disciplines = generateDisciplines((JSONArray) departmentJson.get("disciplines"), department);
             department.setDisciplines(disciplines);
         }
 
@@ -99,13 +98,13 @@ public class FetchDataFromJson {
 
     private List<Discipline> generateDisciplines(JSONArray disciplines, Department department) {
         List<Discipline> data = new ArrayList<>();
-        for (int i = 0; i < disciplines.size(); i++) {
-            JSONObject rawDiscipline = (JSONObject) disciplines.get(i);
+        for (Object disc : disciplines) {
+            JSONObject disciplineJson = (JSONObject) disc;
 
             String name, code, url;
-            name = (String) rawDiscipline.get("name");
-            code = (String) rawDiscipline.get("code");
-            url = (String) rawDiscipline.get("url");
+            name = (String) disciplineJson.get("name");
+            code = (String) disciplineJson.get("code");
+            url = (String) disciplineJson.get("url");
             Discipline discipline = new Discipline(name, code, url);
             discipline.setDepartment(department);
 
@@ -115,9 +114,9 @@ public class FetchDataFromJson {
         disciplineRepo.saveAll(data);
 
         for (int i = 0; i < disciplines.size(); i++) {
-            JSONObject rawDiscipline = (JSONObject) disciplines.get(i);
+            JSONObject disciplineJson = (JSONObject) disciplines.get(i);
             Discipline discipline = data.get(i);
-            List<RequisiteByCourse> requisites = generateRequisitesByCourses((JSONArray) rawDiscipline.get("requisites"),
+            List<RequisiteByCourse> requisites = generateRequisitesByCourses((JSONArray) disciplineJson.get("requisites"),
                     discipline);
             discipline.setRequisites(requisites);
         }
@@ -127,24 +126,24 @@ public class FetchDataFromJson {
         return data;
     }
 
-    private List<RequisiteByCourse> generateRequisitesByCourses(JSONArray courses, Discipline discipline) {
+    private List<RequisiteByCourse> generateRequisitesByCourses(JSONArray requisitesByCourses, Discipline discipline) {
         List<RequisiteByCourse> data = new ArrayList<>();
-        for (int i = 0; i < courses.size(); i++) {
-            JSONObject rawCourse = (JSONObject) courses.get(i);
+        for (Object req : requisitesByCourses) {
+            JSONObject requisitesByCourseJson = (JSONObject) req;
 
-            String code = (String) rawCourse.get("courseCode");
-            RequisiteByCourse course = new RequisiteByCourse(code);
-            course.setDiscipline(discipline);
+            String code = (String) requisitesByCourseJson.get("courseCode");
+            RequisiteByCourse requisitesByCourse = new RequisiteByCourse(code);
+            requisitesByCourse.setDiscipline(discipline);
 
-            data.add(course);
+            data.add(requisitesByCourse);
         }
 
         requisiteByCourseRepo.saveAll(data);
 
-        for (int i = 0; i < courses.size(); i++) {
-            JSONObject rawCourse = (JSONObject) courses.get(i);
+        for (int i = 0; i < requisitesByCourses.size(); i++) {
+            JSONObject requisitesByCourseJson = (JSONObject) requisitesByCourses.get(i);
             RequisiteByCourse course = data.get(i);
-            List<Requisite> requisites = generateRequisites((JSONArray) rawCourse.get("disciplines"), course);
+            List<Requisite> requisites = generateRequisites((JSONArray) requisitesByCourseJson.get("disciplines"), course);
             course.setRequisites(requisites);
         }
 
@@ -153,16 +152,16 @@ public class FetchDataFromJson {
         return data;
     }
 
-    private List<Requisite> generateRequisites(JSONArray requisites, RequisiteByCourse course) {
+    private List<Requisite> generateRequisites(JSONArray requisites, RequisiteByCourse requisiteByCourse) {
         List<Requisite> data = new ArrayList<>();
-        for (int i = 0; i < requisites.size(); i++) {
-            JSONObject rawRequisite = (JSONObject) requisites.get(i);
+        for (Object req : requisites) {
+            JSONObject requisiteJson = (JSONObject) req;
 
             String discipline, type;
-            discipline = (String) rawRequisite.get("discipline");
-            type = (String) rawRequisite.get("type");
+            discipline = (String) requisiteJson.get("discipline");
+            type = (String) requisiteJson.get("type");
             Requisite requisite = new Requisite(discipline, type);
-            requisite.setRequisiteByCourse(course);
+            requisite.setRequisiteByCourse(requisiteByCourse);
 
             data.add(requisite);
         }

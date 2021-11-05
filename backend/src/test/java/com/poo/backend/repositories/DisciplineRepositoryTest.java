@@ -21,7 +21,7 @@ class DisciplineRepositoryTest {
     @Autowired
     private DepartmentRepository departmentRepo;
 
-    void setup_findAllByDepartmentIdIn() {
+    private void setupFindAllByDepartmentIdIn() {
         List<Department> departments = new ArrayList<>();
         List<Discipline> disciplines = new ArrayList<>();
         departments.add(new Department("Foo", "FFF", ""));
@@ -40,8 +40,8 @@ class DisciplineRepositoryTest {
         disciplineRepo.saveAll(disciplines);
     }
     @Test
-    void testFindAllByDepartmentIdIn() {
-        setup_findAllByDepartmentIdIn();
+    public void testFindAllByDepartmentIdIn() {
+        setupFindAllByDepartmentIdIn();
         List<Long>ids = List.of(1L, 2L);
         assertEquals(3, disciplineRepo.findAllByDepartmentIdIn(ids).size());
     }
