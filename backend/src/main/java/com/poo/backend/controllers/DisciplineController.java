@@ -1,7 +1,6 @@
 package com.poo.backend.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.poo.backend.dto.DepartmentDTO;
@@ -38,7 +37,7 @@ public class DisciplineController {
   public List<DisciplineDTO> getRecommendations(@RequestBody UserInputDTO body) {
     List<DisciplineDTO> disciplines = disciplinesThatMatchWithDepartments(body.getDepartments());
     disciplines = disciplinesThatMatchWithKeywords(body.getKeywords(), disciplines);
-    return disciplines;
+    return removeDups(disciplines);
   }
 
   private List<DisciplineDTO> disciplinesThatMatchWithDepartments(List<DepartmentDTO> departments) {
@@ -59,5 +58,13 @@ public class DisciplineController {
             .stream()
             .map(result -> disciplines.get(result.getIndex()))
             .collect(Collectors.toList());
+  }
+
+  private List<DisciplineDTO> removeDups(List<DisciplineDTO> disciplines) {
+    Set<String> disciplinesCode = new HashSet<>();
+    return disciplines.stream().filter(discipline -> {
+      String code = discipline.getCode();
+      return !disciplinesCode.contains(code) && (disciplinesCode.add(code));
+    }).collect(Collectors.toList());
   }
 }
