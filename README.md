@@ -51,7 +51,7 @@ O backend estará em `localhost:8080`
 
 ## Esboço
 
-Durante todas as fases do projeto estamos aprimorando um esboço no figma da inteface do usuário. Este esboço pode ser acessado neste [link](https://www.figma.com/file/IN8LL77pqYjyt3lOFh9Qla).
+Durante todas as fases do projeto estamos aprimorando um esboço no figma da interface do usuário. Este esboço pode ser acessado neste [link](https://www.figma.com/file/IN8LL77pqYjyt3lOFh9Qla).
 
 ## Fase 1
 
