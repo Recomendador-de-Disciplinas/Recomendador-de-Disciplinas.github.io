@@ -1,7 +1,7 @@
 <template>
   <v-container :class="panelContainerClass">
     <v-container
-      v-if="checkIfUserFilledData"
+      v-if="checkIfUserHasNotData"
       class="d-flex flex-column align-self-center align-center"
     >
       <h1 class="text-center">
@@ -53,15 +53,15 @@ export default {
   }),
   mounted() {
     this.getDataFromStorage();
-    this.getRecommendations();
+    if (!this.checkIfUserHasNotData) this.getRecommendations();
   },
   computed: {
-    checkIfUserFilledData() {
+    checkIfUserHasNotData() {
       return this.name == '';
     },
     panelContainerClass() {
       let className = 'height-100';
-      if (this.checkIfUserFilledData) className += ' d-flex';
+      if (this.checkIfUserHasNotData) className += ' d-flex';
       return className;
     },
     displayDisciplines() {

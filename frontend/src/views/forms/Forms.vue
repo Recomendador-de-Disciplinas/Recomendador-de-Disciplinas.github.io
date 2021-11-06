@@ -1,13 +1,17 @@
 <template>
   <v-container>
-    <v-alert v-for="error in errors" :key="error" type="error">{{
-      error
-    }}</v-alert>
     <v-form ref="form">
       <v-row>
         <v-col align="center">
           <h1 class="text-h5">Seja Bem Vindo(a)!</h1>
           <p class="subtitle">Forneça alguns dados inciais para começarmos</p>
+        </v-col>
+      </v-row>
+      <v-row v-for="error in errors" :key="error">
+        <v-col class="pa-0">
+          <v-alert type="error">
+            {{ error }}
+          </v-alert>
         </v-col>
       </v-row>
       <v-row>
@@ -20,9 +24,14 @@
         <v-col>
           <v-text-field label="Nome" v-model="name" required clearable />
           <v-autocomplete
-            :items="disciplinesCodes"
-            label="Disciplinas já cursadas"
+            :items="displayDisciplines"
+            label="Disciplinas já
+          cursadas"
+            no-data-text="Nenhuma disciplina encontrada"
             v-model="discipline"
+            clearable
+            open-on-clear
+            @change="addDiscipline"
           />
         </v-col>
         <v-col>
@@ -47,7 +56,8 @@
           <v-autocomplete
             label="Departamentos de interesse"
             v-model="departments"
-            :items="departmentInfo"
+            :items="displayDepartments"
+            no-data-text="Nenhum departamento encontrado"
             deletable-chips
             multiple
             small-chips
@@ -88,7 +98,6 @@ export default {
   mounted() {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
     this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
-
     this.getSavedDisciplines();
     this.getSavedDepartments();
 
@@ -99,7 +108,9 @@ export default {
     getSavedDisciplines() {
       const disciplineObjects =
         JSON.parse(localStorage.getItem('disciplines')) || [];
-      this.disciplines = disciplineObjects.map((disc) => disc.code);
+      this.disciplines = disciplineObjects.map(
+        (disc) => `${disc.code} - ${disc.name}`
+      );
     },
     getSavedDepartments() {
       const departmentObjects =
@@ -118,7 +129,7 @@ export default {
         (element) => element == this.discipline
       );
       if (!hasDiscipline) {
-        const disciplineExists = this.disciplinesCodes.find(
+        const disciplineExists = this.displayDisciplines.find(
           (element) => element == this.discipline
         );
 
@@ -141,12 +152,10 @@ export default {
         this.allDisciplines
       );
 
-      if (!errors || errors.length === 0) {
+      if (errors.length === 0) {
         this.$router.push('/painel');
-        this.errors = [];
-      } else {
-        this.errors = errors;
       }
+      this.errors = errors;
     },
     async getAllDisciplines() {
       const url = process.env.BACKEND_URL || 'http://localhost:8080';
@@ -160,18 +169,15 @@ export default {
     },
   },
   computed: {
-    disciplinesCodes() {
-      return this.allDisciplines.map((element) => element.code);
-    },
-    departmentInfo() {
-      return this.allDepartments.map(
+    displayDisciplines() {
+      return this.allDisciplines.map(
         (element) => `${element.code} - ${element.name}`
       );
     },
-  },
-  watch: {
-    discipline() {
-      this.addDiscipline();
+    displayDepartments() {
+      return this.allDepartments.map(
+        (element) => `${element.code} - ${element.name}`
+      );
     },
   },
 };

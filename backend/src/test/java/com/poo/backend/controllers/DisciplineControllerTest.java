@@ -24,16 +24,14 @@ class DisciplineControllerTest {
   @Mock
   private DisciplineService service;
 
-  private final List<DepartmentDTO> departments = List.of(
-          new DepartmentDTO(1L, "MAC", "Departamento de Ciência da Computação", "Bar")
-  );
+  private final List<DepartmentDTO> departments = List
+      .of(new DepartmentDTO(1L, "MAC", "Departamento de Ciência da Computação", "Bar"));
   private final List<DisciplineDTO> disciplines = List.of(
-          new DisciplineDTO(1L, "MAC0110", "Introdução à Computação","", departments.get(0)),
-          new DisciplineDTO(2L, "MAC0444", "Sistemas Baseados em Conhecimento","", departments.get(0)),
-          new DisciplineDTO(3L, "MAC0344", "Arquitetura de Computadores", "", departments.get(0)),
-          new DisciplineDTO(4L, "MAC0219", "Computação Paralela e Concorrente", "", departments.get(0)),
-          new DisciplineDTO(5L, "MAC0425", "Inteligência Artificial", "", departments.get(0))
-  );
+      new DisciplineDTO(1L, "MAC0110", "Introdução à Computação", "", departments.get(0)),
+      new DisciplineDTO(2L, "MAC0444", "Sistemas Baseados em Conhecimento", "", departments.get(0)),
+      new DisciplineDTO(3L, "MAC0413", "Tópicos Avançados de Programação Orientada a Objetos", "", departments.get(0)),
+      new DisciplineDTO(4L, "MAC0219", "Computação Paralela e Concorrente", "", departments.get(0)),
+      new DisciplineDTO(5L, "MAC0425", "Inteligência Artificial", "", departments.get(0)));
 
   @BeforeEach
   public void setup() {
@@ -48,7 +46,7 @@ class DisciplineControllerTest {
     expected.remove(1);
     expected.remove(3);
 
-    UserInputDTO requestBody = new UserInputDTO(departments, List.of("computação"));
+    UserInputDTO requestBody = new UserInputDTO(departments, List.of("computação", "orientada a objetos"));
     List<DisciplineDTO> result = controller.getRecommendations(requestBody);
 
     expected.sort(Comparator.comparing(DisciplineDTO::getName));

@@ -59,7 +59,6 @@ public class FetchDataFromJson {
     }
 
     protected JSONArray readFile() throws IOException, ParseException {
-        String currentPath = new File("");
         FileReader file = new FileReader("./src/main/resources/data.json");
         JSONParser parser = new JSONParser();
         return (JSONArray) parser.parse(file);

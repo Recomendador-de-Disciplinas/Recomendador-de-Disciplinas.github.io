@@ -28,11 +28,17 @@ export default class Form {
     storage.clear();
 
     const selectedDepartments = departments.map((department) =>
-      allDepartments.find(({ code }) => department.split(' ')[0] === code)
+      allDepartments.find(({ code }) => {
+        const [inputCode, _] = department.split('-');
+        return inputCode.trim() == code;
+      })
     );
 
     const selectedDisciplines = disciplines.map((discipline) =>
-      allDisciplines.find(({ code }) => discipline === code)
+      allDisciplines.find(({ code }) => {
+        const [inputCode, _] = discipline.split('-');
+        return inputCode.trim() == code;
+      })
     );
 
     info = {
@@ -46,6 +52,6 @@ export default class Form {
       storage.setItem(field, JSON.stringify(info[field]));
     });
 
-    return undefined;
+    return [];
   }
 }

@@ -1,7 +1,9 @@
 package com.poo.backend.controllers;
 
+import java.text.Normalizer;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.poo.backend.dto.DepartmentDTO;
 import com.poo.backend.dto.DisciplineDTO;
@@ -45,19 +47,47 @@ public class DisciplineController {
         return disciplineService.findAllByDepartmentsId(ids);
     }
 
-    private List<DisciplineDTO> disciplinesThatMatchWithKeywords(List<String> keywords, List<DisciplineDTO> disciplines) {
-        List<String> disciplinesNames = disciplines.stream().map(DisciplineDTO::getName).collect(Collectors.toList());
-        List<ExtractedResult> results = new ArrayList<>();
-        keywords.forEach(keyword -> {
+    private String unaccent(String src) {
+        return Normalizer.normalize(src, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
+    private void processKeyword(String keyword, List<String> disciplinesNames, List<Integer> normalResults,
+            List<ExtractedResult> fuzzyResults) {
+        if (keyword.split(" ").length >= 3) {
+            // do search without fuzzy
+            String lowerCaseKeyword = unaccent(keyword).toLowerCase();
+
+            List<Integer> matches = IntStream.range(0, disciplinesNames.size()).mapToObj((index) -> {
+                String discipline = disciplinesNames.get(index);
+                return unaccent(discipline).toLowerCase().contains(lowerCaseKeyword) ? index : -1;
+            }).filter(index -> index != -1).collect(Collectors.toList());
+            normalResults.addAll(matches);
+
+        } else {
             List<ExtractedResult> matches = FuzzySearch.extractAll(keyword, disciplinesNames);
-            matches = matches.stream().filter(match -> match.getScore() > 70).collect(Collectors.toList());
-            results.addAll(matches);
+            matches = matches.stream().filter(match -> match.getScore() >= 80).collect(Collectors.toList());
+            fuzzyResults.addAll(matches);
+        }
+    }
+
+    private List<DisciplineDTO> disciplinesThatMatchWithKeywords(List<String> keywords,
+            List<DisciplineDTO> disciplines) {
+        List<String> disciplinesNames = disciplines.stream().map(DisciplineDTO::getName).collect(Collectors.toList());
+        List<ExtractedResult> fuzzyResults = new ArrayList<>();
+        List<Integer> normalResults = new ArrayList<>();
+
+        keywords.forEach(keyword -> {
+            processKeyword(keyword, disciplinesNames, normalResults, fuzzyResults);
         });
 
-        return results
-                .stream()
-                .map(result -> disciplines.get(result.getIndex()))
-                .collect(Collectors.toList());
+        List<DisciplineDTO> results = new ArrayList<>();
+
+        results.addAll(
+                fuzzyResults.stream().map(result -> disciplines.get(result.getIndex())).collect(Collectors.toList()));
+
+        results.addAll(normalResults.stream().map(index -> disciplines.get(index)).collect(Collectors.toList()));
+
+        return results;
     }
 
     private List<DisciplineDTO> removeDups(List<DisciplineDTO> disciplines) {

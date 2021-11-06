@@ -28,10 +28,19 @@ Todos os commits realizados no Gitlab são espelhados para um repositório no Gi
 
 ### Frontend
 
+É necessário configurar dentro do diretório `/frontend` um arquivo `.env` com as variáveis de ambiente necessárias para executar o `frontend`.
+As variáveis necessárias estão disponíveis no arquivo `.env.sample`.
+
+:warning: Embora o arquivo `.env` seja obrigatório, o valor da variável `BACKEND_URL` é opcional. Caso não seja fornecido, a url `localhost:8080` será usada no lugar em toda a aplicação.
+
+:warning: Limpe os cookies para uma experiência de usuário correta.
+
 Com Docker e Docker Compose instalados, execute dentro do diretório `/frontend`:
 
 ```bash
-$> docker-compose up --build
+$> docker-compose build
+$> docker-compose run --rm frontend yarn install
+$> docker-compose up
 ```
 
 O frontend estará em `localhost:3000`
@@ -42,6 +51,8 @@ O frontend estará em `localhost:3000`
 As variáveis necessárias estão disponíveis no arquivo `.env.sample`. Algumas variáveis padrões já estão definidas.
 
 Com Docker e Docker Compose instalados, execute dentro do mesmo diretório:
+
+:warning: Ao iniciar pela primeira vez, ocorrerá o fetch dos dados. Esse processo pode demorar um pouco.
 
 ```bash
 $> docker-compose up --build
@@ -100,9 +111,14 @@ Por fim, utilizamos o JUnit para fazer alguns testes em cima das funcionalidades
 
 Requisito 1) Como comentamos na etapa anterior, agora não é mais necessário inserir as disciplinas e os departamentos de interesse de forma manual. Para isso, utilizamos rotas do backend para mostrar todas as opções possíveis através dos dados do _jupiterweb_.
 
-Requisito 3)
+Requisito 3) Através do formulário de cadastro, é possível agora cadastrar tópicos de interesse.
 
-Requisito 4) Para este fim, implementamos uma rota `POST` no backend que recebe quais são os departamentos de interesse e as palavras-chave digitadas e retorna uma lista de disciplinas recomendadas. Para fazer a comparação das disciplinas com as palavras-chave, implementamos um sistema de [fuzzy search](https://en.wikipedia.org/wiki/Approximate_string_matching) que compara cada palavra-chave com o título de cada disciplina das unidades indicadas. Se o algoritmo reconhecer 70% de similaridade entre as palavras, colocamos a discplina na lista de recomendadas.
+Requisito 4) Para este fim, implementamos uma rota `POST` no backend que recebe quais são os departamentos de interesse e os tópicos de interesse digitados e retorna uma lista de disciplinas recomendadas. A comparação das disciplinas com os tópicos de interesse é feita de duas maneiras diferentes:
+
+- para tópicos de interesse com menos de 3 palavras, implementamos um sistema de [fuzzy search](https://en.wikipedia.org/wiki/Approximate_string_matching) que compara cada palavra-chave com o título de cada disciplina das unidades indicadas. Se o algoritmo reconhecer 80% de similaridade entre as palavras, colocamos a discplina na lista de recomendadas.
+- para tópicos de interesse com 3 ou mais palavras, verificamos se a disciplina contém uma substring que dá match com o tópico de interesse. Esta verificação é feita ignorando caracteres especiais (como acentos) e letras maiúsculas e minúsculas. Por exemplo, se um tópico de interesse for 'Orientado à objetos', o algoritmo dará match para disciplinas que tenham a string 'orientado a objetos', mas não dará match para disciplinas que tenham a string 'orientada a objeto'. Fizemos essa outra alternativa pois a biblioteca escolhida que implementa a _fuzzy search_ não lida bem com strings com 3 ou mais palavras.
+
+Para a parte da visualização, fizemos um painel que, ao ser aberto, executa esta requisição para o backend e fornece uma visualização das disciplinas recomendadas e das disciplinas já cursadas.
 
 | ![contribuicao_fase_2](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_2.png) |
 | :----------------------------------------------------------------------------------------------------------: |
