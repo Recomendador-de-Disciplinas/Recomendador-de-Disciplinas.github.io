@@ -46,7 +46,7 @@ class DisciplineControllerTest {
     expected.remove(1);
     expected.remove(3);
 
-    UserInputDTO requestBody = new UserInputDTO(departments, List.of("computação", "orientada a objetos"));
+    UserInputDTO requestBody = new UserInputDTO(departments, List.of("computação", "orientada a objetos"), "");
     List<DisciplineDTO> result = controller.getRecommendations(requestBody);
 
     expected.sort(Comparator.comparing(DisciplineDTO::getName));

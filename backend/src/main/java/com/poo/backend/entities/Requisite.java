@@ -15,7 +15,7 @@ public class Requisite {
     private String type;
 
     @ManyToOne
-    private RequisiteByCourse requisiteByCourse;
+    private RequisitesByCourse requisitesByCourse;
 
     public Requisite() {
 
@@ -42,11 +42,11 @@ public class Requisite {
         this.type = type;
     }
 
-    public RequisiteByCourse getRequisiteByCourse() {
-        return requisiteByCourse;
+    public RequisitesByCourse getRequisiteByCourse() {
+        return requisitesByCourse;
     }
 
-    public void setRequisiteByCourse(RequisiteByCourse requisiteByCourse) {
-        this.requisiteByCourse = requisiteByCourse;
+    public void setRequisitesByCourse(RequisitesByCourse requisitesByCourse) {
+        this.requisitesByCourse = requisitesByCourse;
     }
 }

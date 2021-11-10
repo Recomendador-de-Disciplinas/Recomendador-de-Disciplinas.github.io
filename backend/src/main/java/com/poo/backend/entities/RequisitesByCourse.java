@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-@Entity(name = "requisite_by_course")
-public class RequisiteByCourse {
+@Entity(name = "requisites_by_course")
+public class RequisitesByCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,11 +22,11 @@ public class RequisiteByCourse {
     @OneToMany
     private List<Requisite> requisites;
 
-    public RequisiteByCourse() {
+    public RequisitesByCourse() {
 
     }
 
-    public RequisiteByCourse(String courseCode) {
+    public RequisitesByCourse(String courseCode) {
         this.courseCode = courseCode;
     }
 

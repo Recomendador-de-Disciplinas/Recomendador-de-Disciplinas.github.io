@@ -22,7 +22,7 @@ public class Discipline {
     private Department department;
 
     @OneToMany
-    private List<RequisiteByCourse> requisites;
+    private List<RequisitesByCourse> requisites;
 
     public Discipline() {
 
@@ -70,11 +70,11 @@ public class Discipline {
         this.department = department;
     }
 
-    public List<RequisiteByCourse> getRequisites() {
+    public List<RequisitesByCourse> getRequisites() {
         return requisites;
     }
 
-    public void setRequisites(List<RequisiteByCourse> requisites) {
+    public void setRequisites(List<RequisitesByCourse> requisites) {
         this.requisites = requisites;
     }
 }

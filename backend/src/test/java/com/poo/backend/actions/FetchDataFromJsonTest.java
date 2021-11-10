@@ -2,7 +2,7 @@ package com.poo.backend.actions;
 
 import com.poo.backend.repositories.DepartmentRepository;
 import com.poo.backend.repositories.DisciplineRepository;
-import com.poo.backend.repositories.RequisiteByCourseRepository;
+import com.poo.backend.repositories.RequisitesByCourseRepository;
 import com.poo.backend.repositories.RequisiteRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,7 +34,7 @@ class FetchDataFromJsonTest {
     @Autowired
     DisciplineRepository disciplineRepo;
     @Autowired
-    private RequisiteByCourseRepository requisiteByCourseRepo;
+    private RequisitesByCourseRepository requisiteByCourseRepo;
     @Autowired
     private RequisiteRepository requisiteRepo;
 
