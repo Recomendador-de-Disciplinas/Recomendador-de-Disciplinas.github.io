@@ -2,7 +2,7 @@ package com.poo.backend.controllers;
 
 import com.poo.backend.dto.DepartmentDTO;
 import com.poo.backend.dto.DisciplineWithoutReqsDTO;
-import com.poo.backend.dto.UserInputDTO;
+import com.poo.backend.dto.RecommendationsInputDTO;
 import com.poo.backend.services.DisciplineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +45,7 @@ class DisciplineControllerTest {
     expected.remove(1);
     expected.remove(3);
 
-    UserInputDTO requestBody = new UserInputDTO(List.of(department.getId()), List.of("computação", "orientada a objetos"));
+    RecommendationsInputDTO requestBody = new RecommendationsInputDTO(List.of(department.getId()), List.of("computação", "orientada a objetos"));
     List<DisciplineWithoutReqsDTO> result = controller.getRecommendations(requestBody);
 
     expected.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));

@@ -1,9 +1,6 @@
 package com.poo.backend.controllers;
 
-import com.poo.backend.dto.DisciplineDTO;
-import com.poo.backend.dto.DisciplineWithReqsDTO;
-import com.poo.backend.dto.DisciplineWithoutReqsDTO;
-import com.poo.backend.dto.UserInputDTO;
+import com.poo.backend.dto.*;
 import com.poo.backend.search.SearchByExactMatch;
 import com.poo.backend.search.SearchByFuzzy;
 import com.poo.backend.services.DisciplineService;
@@ -32,7 +29,7 @@ public class DisciplineController {
     }
 
     @PostMapping(path = "/recommendations")
-    public List<DisciplineWithoutReqsDTO> getRecommendations(@RequestBody UserInputDTO body) {
+    public List<DisciplineWithoutReqsDTO> getRecommendations(@RequestBody RecommendationsInputDTO body) {
         List<DisciplineWithoutReqsDTO> disciplines;
         List<String> disciplinesNames;
         List<Integer> disciplinesIndexes;
@@ -47,7 +44,7 @@ public class DisciplineController {
     }
 
     @PostMapping(path = "/possible-recommendations")
-    public List<DisciplineWithReqsDTO> getPossibleRecommendations(@RequestBody UserInputDTO body) {
+    public List<DisciplineWithReqsDTO> getPossibleRecommendations(@RequestBody PossibleRecommendationsInputDTO body) {
         List<DisciplineWithReqsDTO> disciplines;
         List<String> disciplinesNames;
         List<Integer> disciplinesIndexes;
