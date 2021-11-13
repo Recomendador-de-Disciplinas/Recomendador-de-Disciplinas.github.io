@@ -1,4 +1,5 @@
 package com.poo.backend.dto;
+
 import com.poo.backend.entities.Requisite;
 import com.poo.backend.entities.RequisitesByCourse;
 

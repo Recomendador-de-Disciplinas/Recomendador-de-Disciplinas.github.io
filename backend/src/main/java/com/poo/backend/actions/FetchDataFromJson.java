@@ -1,26 +1,25 @@
 package com.poo.backend.actions;
 
-import javax.annotation.PostConstruct;
-
 import com.poo.backend.entities.Department;
 import com.poo.backend.entities.Discipline;
 import com.poo.backend.entities.Requisite;
 import com.poo.backend.entities.RequisitesByCourse;
 import com.poo.backend.repositories.DepartmentRepository;
 import com.poo.backend.repositories.DisciplineRepository;
-import com.poo.backend.repositories.RequisitesByCourseRepository;
 import com.poo.backend.repositories.RequisiteRepository;
+import com.poo.backend.repositories.RequisitesByCourseRepository;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component
 public class FetchDataFromJson {

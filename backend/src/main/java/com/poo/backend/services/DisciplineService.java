@@ -1,15 +1,14 @@
 package com.poo.backend.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.poo.backend.dto.DisciplineWithoutReqsDTO;
 import com.poo.backend.dto.DisciplineWithReqsDTO;
+import com.poo.backend.dto.DisciplineWithoutReqsDTO;
 import com.poo.backend.entities.Discipline;
 import com.poo.backend.repositories.DisciplineRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DisciplineService {

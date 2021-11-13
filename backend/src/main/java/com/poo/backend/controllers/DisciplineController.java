@@ -1,19 +1,19 @@
 package com.poo.backend.controllers;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import com.poo.backend.dto.*;
+import com.poo.backend.dto.DisciplineDTO;
+import com.poo.backend.dto.DisciplineWithReqsDTO;
+import com.poo.backend.dto.DisciplineWithoutReqsDTO;
+import com.poo.backend.dto.UserInputDTO;
 import com.poo.backend.search.SearchByExactMatch;
 import com.poo.backend.search.SearchByFuzzy;
 import com.poo.backend.services.DisciplineService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/disciplines")
@@ -43,7 +43,7 @@ public class DisciplineController {
         disciplinesIndexes = disciplinesThatMatchWithKeywords(body.getKeywords(), disciplinesNames);
         disciplines = disciplinesIndexes.stream().map(disciplines::get).collect(Collectors.toList());
 
-        return  (List<DisciplineWithoutReqsDTO>) removeDups(disciplines);
+        return (List<DisciplineWithoutReqsDTO>) removeDups(disciplines);
     }
 
     @PostMapping(path = "/possible-recommendations")
@@ -64,7 +64,7 @@ public class DisciplineController {
     }
 
     private List<Integer> disciplinesThatMatchWithKeywords(List<String> keywords,
-                                                                 List<String> disciplinesNames) {
+                                                           List<String> disciplinesNames) {
         List<Integer> resultsIndex;
         List<String> fuzzyKeywords, exactMatchKeywords;
 

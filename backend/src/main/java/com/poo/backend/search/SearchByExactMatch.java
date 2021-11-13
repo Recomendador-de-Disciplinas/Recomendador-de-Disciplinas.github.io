@@ -1,8 +1,5 @@
 package com.poo.backend.search;
 
-import me.xdrop.fuzzywuzzy.FuzzySearch;
-import me.xdrop.fuzzywuzzy.model.ExtractedResult;
-
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;

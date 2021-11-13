@@ -1,14 +1,13 @@
 package com.poo.backend.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.poo.backend.dto.DepartmentDTO;
 import com.poo.backend.entities.Department;
 import com.poo.backend.repositories.DepartmentRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService {

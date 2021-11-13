@@ -1,7 +1,6 @@
 package com.poo.backend.repositories;
 
 import com.poo.backend.entities.RequisitesByCourse;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
