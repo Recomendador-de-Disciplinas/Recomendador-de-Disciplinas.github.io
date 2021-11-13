@@ -30,6 +30,10 @@ public class RequisitesByCourse {
         this.courseCode = courseCode;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getCourseCode() {
         return courseCode;
     }

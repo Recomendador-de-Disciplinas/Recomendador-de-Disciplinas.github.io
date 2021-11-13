@@ -1,7 +1,7 @@
 package com.poo.backend.controllers;
 
 import com.poo.backend.dto.DepartmentDTO;
-import com.poo.backend.dto.DisciplineDTO;
+import com.poo.backend.dto.DisciplineWithoutReqsDTO;
 import com.poo.backend.dto.UserInputDTO;
 import com.poo.backend.services.DisciplineService;
 import org.junit.jupiter.api.Assertions;
@@ -24,14 +24,13 @@ class DisciplineControllerTest {
   @Mock
   private DisciplineService service;
 
-  private final List<DepartmentDTO> departments = List
-      .of(new DepartmentDTO(1L, "MAC", "Departamento de Ciência da Computação", "Bar"));
-  private final List<DisciplineDTO> disciplines = List.of(
-      new DisciplineDTO(1L, "MAC0110", "Introdução à Computação", "", departments.get(0)),
-      new DisciplineDTO(2L, "MAC0444", "Sistemas Baseados em Conhecimento", "", departments.get(0)),
-      new DisciplineDTO(3L, "MAC0413", "Tópicos Avançados de Programação Orientada a Objetos", "", departments.get(0)),
-      new DisciplineDTO(4L, "MAC0219", "Computação Paralela e Concorrente", "", departments.get(0)),
-      new DisciplineDTO(5L, "MAC0425", "Inteligência Artificial", "", departments.get(0)));
+  private final DepartmentDTO department = new DepartmentDTO(1L, "MAC", "Departamento de Ciência da Computação", "Bar");
+  private final List<DisciplineWithoutReqsDTO> disciplines = List.of(
+      new DisciplineWithoutReqsDTO(1L, "MAC0110", "Introdução à Computação", "", department),
+      new DisciplineWithoutReqsDTO(2L, "MAC0444", "Sistemas Baseados em Conhecimento", "", department),
+      new DisciplineWithoutReqsDTO(3L, "MAC0413", "Tópicos Avançados de Programação Orientada a Objetos", "", department),
+      new DisciplineWithoutReqsDTO(4L, "MAC0219", "Computação Paralela e Concorrente", "", department),
+      new DisciplineWithoutReqsDTO(5L, "MAC0425", "Inteligência Artificial", "", department));
 
   @BeforeEach
   public void setup() {
@@ -42,15 +41,15 @@ class DisciplineControllerTest {
   public void testGetRecommendations() {
     Mockito.when(service.findAllByDepartmentsId(Mockito.anyList())).thenReturn(disciplines);
 
-    List<DisciplineDTO> expected = new ArrayList<>(disciplines);
+    List<DisciplineWithoutReqsDTO> expected = new ArrayList<>(disciplines);
     expected.remove(1);
     expected.remove(3);
 
-    UserInputDTO requestBody = new UserInputDTO(departments, List.of("computação", "orientada a objetos"), "");
-    List<DisciplineDTO> result = controller.getRecommendations(requestBody);
+    UserInputDTO requestBody = new UserInputDTO(List.of(department.getId()), List.of("computação", "orientada a objetos"));
+    List<DisciplineWithoutReqsDTO> result = controller.getRecommendations(requestBody);
 
-    expected.sort(Comparator.comparing(DisciplineDTO::getName));
-    result.sort(Comparator.comparing(DisciplineDTO::getName));
+    expected.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));
+    result.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));
     Assertions.assertEquals(expected.toString(), result.toString());
   }
 }

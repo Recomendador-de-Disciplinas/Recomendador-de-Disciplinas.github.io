@@ -7,22 +7,19 @@ public class DisciplineDTO {
     private final String code;
     private final String name;
     private final String url;
-    private final DepartmentDTO department;
 
     public DisciplineDTO(Discipline discipline) {
         this.id = discipline.getId();
         this.name = discipline.getName();
         this.code = discipline.getCode();
         this.url = discipline.getUrl();
-        this.department = new DepartmentDTO(discipline.getDepartment());
     }
 
-    public DisciplineDTO(Long id, String code, String name, String url, DepartmentDTO department) {
+    public DisciplineDTO(Long id, String code, String name, String url) {
         this.id = id;
         this.code = code;
         this.name = name;
         this.url = url;
-        this.department = department;
     }
 
     public Long getId() {
@@ -39,9 +36,5 @@ public class DisciplineDTO {
 
     public String getUrl() {
         return url;
-    }
-
-    public DepartmentDTO getDepartment() {
-        return department;
     }
 }

@@ -26,6 +26,10 @@ public class Requisite {
         this.type = type;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getDiscipline() {
         return discipline;
     }

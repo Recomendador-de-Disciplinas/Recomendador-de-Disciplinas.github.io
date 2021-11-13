@@ -3,7 +3,8 @@ package com.poo.backend.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.poo.backend.dto.DisciplineDTO;
+import com.poo.backend.dto.DisciplineWithoutReqsDTO;
+import com.poo.backend.dto.DisciplineWithReqsDTO;
 import com.poo.backend.entities.Discipline;
 import com.poo.backend.repositories.DisciplineRepository;
 
@@ -16,13 +17,18 @@ public class DisciplineService {
     @Autowired
     private DisciplineRepository disciplineRepo;
 
-    public List<DisciplineDTO> findAll() {
+    public List<DisciplineWithoutReqsDTO> findAll() {
         List<Discipline> disciplines = disciplineRepo.findAll();
-        return disciplines.stream().map(DisciplineDTO::new).collect(Collectors.toList());
+        return disciplines.stream().map(DisciplineWithoutReqsDTO::new).collect(Collectors.toList());
     }
 
-    public List<DisciplineDTO> findAllByDepartmentsId(List<Long> departmentIds) {
+    public List<DisciplineWithoutReqsDTO> findAllByDepartmentsId(List<Long> departmentIds) {
         List<Discipline> disciplines = disciplineRepo.findAllByDepartmentIdIn(departmentIds);
-        return disciplines.stream().map(DisciplineDTO::new).collect(Collectors.toList());
+        return disciplines.stream().map(DisciplineWithoutReqsDTO::new).collect(Collectors.toList());
+    }
+
+    public List<DisciplineWithReqsDTO> findAllWithRequisitesByDepartmentsId(List<Long> departmentIds) {
+        List<Discipline> disciplines = disciplineRepo.findAllByDepartmentIdIn(departmentIds);
+        return disciplines.stream().map(DisciplineWithReqsDTO::new).collect(Collectors.toList());
     }
 }
