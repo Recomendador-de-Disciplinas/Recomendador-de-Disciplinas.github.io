@@ -7,18 +7,18 @@ public class UserInputDTO {
     private final List<Long> departmentsId;
     private final List<String> keywords;
     private List<String> disciplinesCode;
-    private String codeCourse;
+    private String courseCode;
 
     public UserInputDTO(List<Long> departmentsId, List<String> keywords) {
         this.departmentsId = departmentsId;
         this.keywords = keywords;
     }
 
-    public UserInputDTO(List<Long> departmentsId, List<String> disciplinesCode, List<String> keywords, String codeCourse) {
+    public UserInputDTO(List<Long> departmentsId, List<String> disciplinesCode, List<String> keywords, String courseCode) {
         this.departmentsId = departmentsId;
         this.disciplinesCode = disciplinesCode;
         this.keywords = keywords;
-        this.codeCourse = codeCourse;
+        this.courseCode = courseCode;
     }
 
     public List<Long> getDepartmentsId() {
@@ -33,7 +33,7 @@ public class UserInputDTO {
         return keywords;
     }
 
-    public String getCodeCourse() {
-        return codeCourse;
+    public String getCourseCode() {
+        return courseCode;
     }
 }
