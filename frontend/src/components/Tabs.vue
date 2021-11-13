@@ -10,7 +10,7 @@
         <Table :disciplines="disciplines" :recommendations="recommendations" />
       </v-tab-item>
       <v-tab-item key="graph">
-        <Graph />
+        <Graph :possibleRecommendations="possibleRecommendations" />
       </v-tab-item>
     </v-tabs-items>
   </div>
@@ -31,6 +31,10 @@ export default {
       required: true,
     },
     recommendations: {
+      type: Array,
+      required: true,
+    },
+    possibleRecommendations: {
       type: Array,
       required: true,
     },

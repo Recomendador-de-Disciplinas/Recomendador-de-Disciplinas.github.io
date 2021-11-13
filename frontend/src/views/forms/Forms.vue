@@ -24,6 +24,15 @@
         <v-col>
           <v-text-field label="Nome" v-model="name" required clearable />
           <v-autocomplete
+            :items="allCoursesCode"
+            label="Código do curso"
+            v-model="courseCode"
+            no-data-text="Nenhum código de curso encontrado"
+            hint="Exemplo: o código de Ciência da Computação no IME-USP é 45052. Caso não lembre o código do seu curso, acesse o JupiterWeb."
+            persistent-hint
+            clearable
+          />
+          <v-autocomplete
             :items="displayDisciplines"
             label="Disciplinas já
           cursadas"
@@ -84,10 +93,12 @@ import Form from './forms';
 export default {
   data: () => ({
     name: '',
+    courseCode: '',
     discipline: '',
     disciplines: [],
     departments: [],
     keywords: [],
+    allCoursesCode: [],
     allDisciplines: [],
     allDepartments: [],
     errors: [],
@@ -97,10 +108,12 @@ export default {
   },
   mounted() {
     this.name = JSON.parse(localStorage.getItem('name')) || '';
+    this.courseCode = JSON.parse(localStorage.getItem('courseCode')) || '';
     this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
     this.getSavedDisciplines();
     this.getSavedDepartments();
 
+    this.getAllCoursesCode();
     this.getAllDisciplines();
     this.getAllDepartments();
   },
@@ -140,17 +153,18 @@ export default {
       }
     },
     submit() {
-      const errors = Form.saveClientSide(
-        localStorage,
-        {
-          name: this.name,
-          disciplines: this.disciplines,
-          departments: this.departments,
-          keywords: this.keywords,
-        },
+      const form = new Form(
+        this.allCoursesCode,
         this.allDepartments,
         this.allDisciplines
       );
+      const errors = form.saveClientSide(localStorage, {
+        name: this.name,
+        courseCode: this.courseCode,
+        disciplines: this.disciplines,
+        departments: this.departments,
+        keywords: this.keywords,
+      });
 
       if (errors.length === 0) {
         this.$router.push('/painel');
@@ -166,6 +180,11 @@ export default {
       const url = process.env.BACKEND_URL || 'http://localhost:8080';
       const response = await fetch(url + '/departments');
       this.allDepartments = await response.json();
+    },
+    async getAllCoursesCode() {
+      const url = process.env.BACKEND_URL || 'http://localhost:8080';
+      const response = await fetch(url + '/requisites/courses');
+      this.allCoursesCode = (await response.json()).sort();
     },
   },
   computed: {

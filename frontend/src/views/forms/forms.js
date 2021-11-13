@@ -1,9 +1,19 @@
 export default class Form {
-  static validateFields(payload) {
-    const { name, departments, keywords } = payload;
+  constructor(allCoursesCode, allDepartments, allDisciplines) {
+    this.allCoursesCode = allCoursesCode;
+    this.allDepartments = allDepartments;
+    this.allDisciplines = allDisciplines;
+  }
+
+  validateFields(payload) {
+    const { name, courseCode, departments, keywords } = payload;
     const errors = [];
 
     if (!name.trim()) errors.push('É necessário informar seu nome');
+
+    if (!this.allCoursesCode.find((code) => code === courseCode)) {
+      errors.push('Código do curso não existe');
+    }
 
     if (departments.length === 0)
       errors.push(
@@ -18,24 +28,25 @@ export default class Form {
     };
   }
 
-  static saveClientSide(storage, info, allDepartments, allDisciplines) {
+  saveClientSide(storage, payload) {
+    const { name, courseCode, disciplines, departments, keywords } = payload;
+
+    let info = { name, courseCode, departments, keywords };
     const { isValid, errors } = this.validateFields(info);
 
     if (!isValid) return errors;
 
-    const { name, disciplines, departments, keywords } = info;
-
     storage.clear();
 
     const selectedDepartments = departments.map((department) =>
-      allDepartments.find(({ code }) => {
+      this.allDepartments.find(({ code }) => {
         const [inputCode, _] = department.split('-');
         return inputCode.trim() == code;
       })
     );
 
     const selectedDisciplines = disciplines.map((discipline) =>
-      allDisciplines.find(({ code }) => {
+      this.allDisciplines.find(({ code }) => {
         const [inputCode, _] = discipline.split('-');
         return inputCode.trim() == code;
       })
@@ -43,6 +54,7 @@ export default class Form {
 
     info = {
       name,
+      courseCode,
       disciplines: selectedDisciplines,
       departments: selectedDepartments,
       keywords,

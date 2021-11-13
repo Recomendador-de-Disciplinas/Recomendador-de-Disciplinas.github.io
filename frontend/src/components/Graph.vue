@@ -3,7 +3,12 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    possibleRecommendations: {
+      type: Array,
+      required: true,
+    },
+  },
+};
 </script>
-
-<style></style>

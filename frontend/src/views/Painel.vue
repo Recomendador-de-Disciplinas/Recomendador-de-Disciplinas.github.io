@@ -32,6 +32,7 @@
         <Tabs
           :disciplines="displayDisciplines"
           :recommendations="displayRecommendations"
+          :possibleRecommendations="possibleRecommendations"
         />
       </v-row>
     </div>
@@ -50,10 +51,15 @@ export default {
     departments: [],
     keywords: [],
     recommendations: [],
+    possibleRecommendations: [],
+    courseCode: '',
   }),
   mounted() {
     this.getDataFromStorage();
-    if (!this.checkIfUserHasNotData) this.getRecommendations();
+    if (!this.checkIfUserHasNotData) {
+      this.getRecommendations();
+      this.getPossibleRecommendationsForNextSemester();
+    }
   },
   computed: {
     checkIfUserHasNotData() {
@@ -87,6 +93,7 @@ export default {
       this.disciplines = JSON.parse(localStorage.getItem('disciplines')) || [];
       this.departments = JSON.parse(localStorage.getItem('departments')) || [];
       this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
+      this.courseCode = JSON.parse(localStorage.getItem('courseCode')) || '';
     },
     async getRecommendations() {
       const url = process.env.BACKEND_URL || 'http://localhost:8080';
@@ -94,16 +101,46 @@ export default {
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
-      const body = await fetch(url + '/disciplines/recommendations', {
+      console.log(this.departments);
+
+      const response = await fetch(url + '/disciplines/recommendations', {
         headers,
         method: 'POST',
         body: JSON.stringify({
-          departments: this.departments,
+          departmentsId: this.departments.map((department) => department.id),
           keywords: this.keywords,
         }),
       });
 
-      this.recommendations = await body.json();
+      if (response.status === 200) {
+        this.recommendations = await response.json();
+      }
+    },
+    async getPossibleRecommendationsForNextSemester() {
+      const url = process.env.BACKEND_URL || 'http://localhost:8080';
+
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+
+      const response = await fetch(
+        url + '/disciplines/possible-recommendations',
+        {
+          headers,
+          method: 'POST',
+          body: JSON.stringify({
+            departmentsId: this.departments.map((department) => department.id),
+            disciplinesCode: this.disciplines.map(
+              (discipline) => discipline.code
+            ),
+            keywords: this.keywords,
+            courseCode: this.courseCode,
+          }),
+        }
+      );
+
+      if (response.status === 200) {
+        this.possibleRecommendations = await response.json();
+      }
     },
   },
 };
