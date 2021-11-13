@@ -5,8 +5,8 @@ import java.util.List;
 
 public class UserInputDTO {
     private final List<Long> departmentsId;
-    private List<String> disciplinesCode;
     private final List<String> keywords;
+    private List<String> disciplinesCode;
     private String codeCourse;
 
     public UserInputDTO(List<Long> departmentsId, List<String> keywords) {
