@@ -92,14 +92,16 @@ public class DisciplineController {
         disciplines.forEach(discipline -> {
             List<RequisitesByCourseDTO> requisites, filteredRequisites;
             requisites = discipline.getRequisites();
-            filteredRequisites = requisites.stream()
-                                .filter(requisite -> Objects.equals(requisite.getCourseCode(), courseCode))
-                                .collect(Collectors.toList());
+            if (requisites.size() > 0) {
+                filteredRequisites = requisites.stream()
+                                    .filter(requisite -> Objects.equals(requisite.getCourseCode(), courseCode))
+                                    .collect(Collectors.toList());
 
-            if (requisites.size() > 0 && filteredRequisites.size() == 0)
-                filteredRequisites = List.of(requisites.get(0));
+                if (filteredRequisites.size() == 0)
+                    filteredRequisites = List.of(requisites.get(0));
 
-            discipline.setRequisites(filteredRequisites);
+                discipline.setRequisites(filteredRequisites);
+            }
         });
     }
 

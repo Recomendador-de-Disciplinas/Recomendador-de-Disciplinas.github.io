@@ -14,6 +14,11 @@ public class DisciplineWithReqsDTO extends DisciplineDTO {
         this.requisites = createRequisites(discipline.getRequisites());
     }
 
+    public DisciplineWithReqsDTO(Long id, String code, String name, String url, List<RequisitesByCourseDTO> requisites) {
+        super(id, code, name, url);
+        this.requisites = requisites;
+    }
+
     private List<RequisitesByCourseDTO> createRequisites(List<RequisitesByCourse> requisites) {
         return requisites.stream().map(RequisitesByCourseDTO::new).collect(Collectors.toList());
     }
