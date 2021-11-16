@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DisciplineWithReqsDTO extends DisciplineDTO {
-    private final List<RequisitesByCourseDTO> requisites;
+    private List<RequisitesByCourseDTO> requisites;
 
     public DisciplineWithReqsDTO(Discipline discipline) {
         super(discipline);
@@ -16,6 +16,10 @@ public class DisciplineWithReqsDTO extends DisciplineDTO {
 
     private List<RequisitesByCourseDTO> createRequisites(List<RequisitesByCourse> requisites) {
         return requisites.stream().map(RequisitesByCourseDTO::new).collect(Collectors.toList());
+    }
+
+    public void setRequisites(List<RequisitesByCourseDTO> requisites) {
+        this.requisites = requisites;
     }
 
     public List<RequisitesByCourseDTO> getRequisites() {
