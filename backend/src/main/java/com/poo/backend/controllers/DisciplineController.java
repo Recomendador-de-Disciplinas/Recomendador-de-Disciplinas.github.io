@@ -60,6 +60,8 @@ public class DisciplineController {
         List<String> disciplinesNames;
         List<Integer> disciplinesIndexes;
 
+        if (keywords.size() == 0) return disciplines;
+
         disciplinesNames = disciplines.stream().map(DisciplineWithReqsDTO::getName).collect(Collectors.toList());
         disciplinesIndexes = disciplinesThatMatchWithKeywords(keywords, disciplinesNames);
 
