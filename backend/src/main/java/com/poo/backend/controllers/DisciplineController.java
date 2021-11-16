@@ -1,6 +1,7 @@
 package com.poo.backend.controllers;
 
 import com.poo.backend.dto.*;
+import com.poo.backend.entities.Discipline;
 import com.poo.backend.search.SearchByExactMatch;
 import com.poo.backend.search.SearchByFuzzy;
 import com.poo.backend.services.DisciplineService;
@@ -28,7 +29,7 @@ public class DisciplineController {
         return disciplineService.findAll();
     }
 
-    @PostMapping(path = "/recommendations")
+    @GetMapping(path = "/recommendations")
     public List<DisciplineWithoutReqsDTO> getRecommendations(@RequestBody RecommendationsInputDTO body) {
         List<DisciplineWithoutReqsDTO> disciplines;
         List<String> disciplinesNames;
@@ -43,7 +44,7 @@ public class DisciplineController {
         return (List<DisciplineWithoutReqsDTO>) removeDups(disciplines);
     }
 
-    @PostMapping(path = "/possible-recommendations")
+    @GetMapping(path = "/possible-recommendations")
     public List<DisciplineWithReqsDTO> getPossibleRecommendations(@RequestBody PossibleRecommendationsInputDTO body) {
         List<DisciplineWithReqsDTO> disciplines;
         List<String> disciplinesNames;
@@ -74,10 +75,8 @@ public class DisciplineController {
         return resultsIndex;
     }
 
-    private Object removeDups(Object rawDisciplines) {
+    private List<? extends DisciplineDTO> removeDups(List<? extends DisciplineDTO> disciplines) {
         Set<String> disciplinesCode = new HashSet<>();
-        List<DisciplineDTO> disciplines = (List<DisciplineDTO>) rawDisciplines;
-
         return disciplines.stream().filter(discipline -> {
             String code = discipline.getCode();
             return !disciplinesCode.contains(code) && (disciplinesCode.add(code));
