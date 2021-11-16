@@ -65,7 +65,7 @@ class DisciplineControllerTest {
   private List<DisciplineWithReqsDTO> setupTestGetPossibleRecommendations() {
     RequisitesByCourse bcc = new RequisitesByCourse("45052");
     RequisitesByCourse bcc2 = new RequisitesByCourse("45052");
-    bcc2.setRequisites(List.of(
+    bcc.setRequisites(List.of(
             new Requisite("MAC0338 - Análise de Algoritmos", "requisito")
     ));
     bcc2.setRequisites(List.of(
