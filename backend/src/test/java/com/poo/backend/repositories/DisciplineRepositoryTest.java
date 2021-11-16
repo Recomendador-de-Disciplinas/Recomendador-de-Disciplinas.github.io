@@ -2,6 +2,7 @@ package com.poo.backend.repositories;
 
 import com.poo.backend.entities.Department;
 import com.poo.backend.entities.Discipline;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -10,7 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
@@ -39,7 +40,9 @@ class DisciplineRepositoryTest {
         departmentRepo.saveAll(departments);
         disciplineRepo.saveAll(disciplines);
     }
+
     @Test
+    @DisplayName("it gets all disciplines that belongs to specifics departments")
     public void testFindAllByDepartmentIdIn() {
         setupFindAllByDepartmentIdIn();
         List<Long>ids = List.of(1L, 2L);

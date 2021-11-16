@@ -2,12 +2,13 @@ package com.poo.backend.actions;
 
 import com.poo.backend.repositories.DepartmentRepository;
 import com.poo.backend.repositories.DisciplineRepository;
-import com.poo.backend.repositories.RequisitesByCourseRepository;
 import com.poo.backend.repositories.RequisiteRepository;
+import com.poo.backend.repositories.RequisitesByCourseRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
@@ -69,6 +70,7 @@ class FetchDataFromJsonTest {
     }
 
     @Test
+    @DisplayName("it returns the correct data when fetching from json file")
     void testRun() throws IOException, ParseException {
         JSONArray dataJson = setupTestRun();
         FetchDataFromJson spy = Mockito.spy(fetcher);
