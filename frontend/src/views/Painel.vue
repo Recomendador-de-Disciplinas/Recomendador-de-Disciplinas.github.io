@@ -75,7 +75,7 @@ export default {
     departments: [],
     keywords: [],
     recommendations: [],
-    possibleRecommendations: [],
+    possibleRecommendations: {},
     courseCode: '',
   }),
   mounted() {
@@ -119,52 +119,91 @@ export default {
       this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
       this.courseCode = JSON.parse(localStorage.getItem('courseCode')) || '';
     },
-    async getRecommendations() {
+
+    async fetchDataFromBackend(path, body) {
       const url = process.env.BACKEND_URL || 'http://localhost:8080';
 
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
 
-      console.log(this.departments);
-
-      const response = await fetch(url + '/disciplines/recommendations', {
+      const response = await fetch(url + path, {
         headers,
         method: 'POST',
-        body: JSON.stringify({
-          departmentsId: this.departments.map((department) => department.id),
-          keywords: this.keywords,
-        }),
+        body: JSON.stringify(body),
       });
 
       if (response.status === 200) {
-        this.recommendations = await response.json();
+        return await response.json();
       }
+      return null;
+    },
+    async getRecommendations() {
+      const body = {
+        departmentsId: this.departments.map((department) => department.id),
+        keywords: this.keywords,
+      };
+      this.recommendations = await this.fetchDataFromBackend(
+        '/disciplines/recommendations',
+        body
+      );
     },
     async getPossibleRecommendationsForNextSemester() {
-      const url = process.env.BACKEND_URL || 'http://localhost:8080';
-
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-
-      const response = await fetch(
-        url + '/disciplines/possible-recommendations',
-        {
-          headers,
-          method: 'POST',
-          body: JSON.stringify({
-            departmentsId: this.departments.map((department) => department.id),
-            disciplinesCode: this.disciplines.map(
-              (discipline) => discipline.code
-            ),
-            keywords: this.keywords,
-            courseCode: this.courseCode,
-          }),
-        }
+      const body = {
+        departmentsId: this.departments.map((department) => department.id),
+        disciplinesCode: this.disciplines.map((discipline) => discipline.code),
+        keywords: this.keywords,
+        courseCode: this.courseCode,
+      };
+      const response = await this.fetchDataFromBackend(
+        '/disciplines/possible-recommendations',
+        body
       );
+      this.possibleRecommendations = this.processGraphData(response);
+    },
+    processGraphData(rawData) {
+      const disciplinesIdInNodesList = new Map();
+      const data = {
+        nodes: [],
+        links: [],
+      };
 
-      if (response.status === 200) {
-        this.possibleRecommendations = await response.json();
-      }
+      rawData.forEach((discipline) => {
+        const { code, name, url } = discipline;
+        const requisitesByCourse = discipline.requisites;
+        const requisites = requisitesByCourse[0]?.requisites;
+        let idInNodeList = data.nodes.length + 1;
+
+        data.nodes.push({
+          id: idInNodeList,
+          name: `${code} - ${name}`,
+          onClick: () => window.open(url, '_blank'),
+        });
+
+        requisites?.forEach((requisite) => {
+          const discipline = requisite.discipline;
+          const [code, _] = discipline.split('-').map((el) => el.trim());
+          let requisiteIdInNodeList;
+
+          if (!disciplinesIdInNodesList.has(code)) {
+            requisiteIdInNodeList = data.nodes.length + 1;
+            disciplinesIdInNodesList.set(code, requisiteIdInNodeList);
+
+            data.nodes.push({
+              id: requisiteIdInNodeList,
+              name: discipline,
+              onClick: () => {},
+            });
+          } else {
+            requisiteIdInNodeList = disciplinesIdInNodesList[code];
+          }
+
+          data.links.push({
+            source: requisiteIdInNodeList,
+            target: idInNodeList,
+          });
+        });
+      });
+      return data;
     },
   },
 };

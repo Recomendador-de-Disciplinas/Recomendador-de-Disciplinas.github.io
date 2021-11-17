@@ -35,7 +35,7 @@ export default {
       required: true,
     },
     possibleRecommendations: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },
