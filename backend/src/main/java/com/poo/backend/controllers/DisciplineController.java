@@ -28,7 +28,7 @@ public class DisciplineController {
         return disciplineService.findAll();
     }
 
-    @GetMapping(path = "/recommendations")
+    @PostMapping(path = "/recommendations")
     public List<DisciplineWithoutReqsDTO> getRecommendations(@RequestBody RecommendationsInputDTO body) {
         List<DisciplineWithoutReqsDTO> disciplines;
         List<String> disciplinesNames;
@@ -43,7 +43,7 @@ public class DisciplineController {
         return (List<DisciplineWithoutReqsDTO>) removeDups(disciplines);
     }
 
-    @GetMapping(path = "/possible-recommendations")
+    @PostMapping(path = "/possible-recommendations")
     public List<DisciplineWithReqsDTO> getPossibleRecommendations(@RequestBody PossibleRecommendationsInputDTO body) {
         List<DisciplineWithReqsDTO> disciplines;
 
