@@ -17,16 +17,40 @@
       >
     </v-container>
     <div v-else>
-      <v-row class="my-4 flex flex-column">
-        <h1 class="mx-2 mb-1 font-weight-regular text-h4">{{ name }}</h1>
-        <div>
-          <p class="mx-2 mb-0 text--secondary text-subtitle">
-            Topicos de interesse: {{ displayKeywords }}
-          </p>
-          <p class="mx-2 mb-0 text--secondary text-subtitle">
-            Departamentos de interesse: {{ displayDepartments }}
-          </p>
-        </div>
+      <v-row class="my-4">
+        <v-col>
+          <h1 class="mx-2 mb-1 font-weight-regular text-h4">{{ name }}</h1>
+          <div>
+            <p class="mx-2 mb-0 text--secondary text-subtitle">
+              Topicos de interesse: {{ displayKeywords }}
+            </p>
+            <p class="mx-2 mb-0 text--secondary text-subtitle">
+              Departamentos de interesse: {{ displayDepartments }}
+            </p>
+          </div>
+        </v-col>
+        <v-col>
+          <v-container
+            class="d-flex flex-column justify-space-between align-end"
+          >
+            <v-btn
+              class="my-1 px-5 py-2 small rounded-lg"
+              color="#FAF7B1"
+              depressed
+              width="50%"
+            >
+              <v-icon left> mdi-pencil </v-icon>Editar Dados</v-btn
+            >
+            <v-btn
+              class="my-1 px-5 py-2 small rounded-lg"
+              color="#FAF7B1"
+              depressed
+              width="50%"
+            >
+              <v-icon left> mdi-pencil </v-icon>Editar Interesses</v-btn
+            >
+          </v-container>
+        </v-col>
       </v-row>
       <v-row>
         <Tabs
