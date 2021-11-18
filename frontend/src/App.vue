@@ -14,7 +14,7 @@ export default {
     paths: [
       { name: 'Home', url: '/' },
       { name: 'Dados', url: '/forms' },
-      { name: 'Meu Painel', url: '/painel' },
+      { name: 'Meu Painel', url: '/panel' },
     ],
   }),
 };

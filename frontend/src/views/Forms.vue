@@ -88,7 +88,7 @@
 
 <script>
 import Board from '@/components/Board.vue';
-import Form from './forms';
+import { saveDataInStorage } from '@/services/Storage.js';
 
 export default {
   data: () => ({
@@ -153,21 +153,23 @@ export default {
       }
     },
     submit() {
-      const form = new Form(
-        this.allCoursesCode,
-        this.allDepartments,
-        this.allDisciplines
-      );
-      const errors = form.saveClientSide(localStorage, {
-        name: this.name,
-        courseCode: this.courseCode,
-        disciplines: this.disciplines,
-        departments: this.departments,
-        keywords: this.keywords,
+      const errors = saveDataInStorage(localStorage, {
+        userData: {
+          name: this.name,
+          courseCode: this.courseCode,
+          disciplines: this.disciplines,
+          departments: this.departments,
+          keywords: this.keywords,
+        },
+        backendData: {
+          allCoursesCode: this.allCoursesCode,
+          allDepartments: this.allDepartments,
+          allDisciplines: this.allDisciplines,
+        },
       });
 
       if (errors.length === 0) {
-        this.$router.push('/painel');
+        this.$router.push('/panel');
       }
       this.errors = errors;
     },

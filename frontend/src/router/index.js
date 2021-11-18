@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
-import Forms from '@/views/forms/Forms.vue';
-import Painel from '@/views/Painel.vue';
+import Forms from '@/views/Forms.vue';
+import Panel from '@/views/Panel.vue';
 
 Vue.use(VueRouter);
 
@@ -18,9 +18,9 @@ const routes = [
     component: Forms,
   },
   {
-    path: '/painel',
-    name: 'Painel',
-    component: Painel,
+    path: '/panel',
+    name: 'Panel',
+    component: Panel,
   },
 ];
 
