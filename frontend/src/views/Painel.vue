@@ -52,12 +52,21 @@
           </v-container>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row justify="center">
         <Tabs
           :disciplines="displayDisciplines"
           :recommendations="displayRecommendations"
           :possibleRecommendations="possibleRecommendations"
+          v-if="dataFetched"
         />
+        <v-progress-circular
+          v-else
+          :size="200"
+          :width="20"
+          color="blue"
+          indeterminate
+          >Loading</v-progress-circular
+        >
       </v-row>
     </div>
   </v-container>
@@ -75,14 +84,14 @@ export default {
     departments: [],
     keywords: [],
     recommendations: [],
+    dataFetched: false,
     possibleRecommendations: {},
     courseCode: '',
   }),
   mounted() {
     this.getDataFromStorage();
     if (!this.checkIfUserHasNotData) {
-      this.getRecommendations();
-      this.getPossibleRecommendationsForNextSemester();
+      this.fetch();
     }
   },
   computed: {
@@ -160,6 +169,12 @@ export default {
       );
       this.possibleRecommendations = this.processGraphData(response);
     },
+    async fetch() {
+      this.dataFetched = false;
+      await this.getRecommendations();
+      await this.getPossibleRecommendationsForNextSemester();
+      this.dataFetched = true;
+    },
     processGraphData(rawData) {
       const disciplinesIdInNodesList = new Map();
       const data = {
@@ -194,7 +209,7 @@ export default {
               url: null,
             });
           } else {
-            requisiteIdInNodeList = disciplinesIdInNodesList[code];
+            requisiteIdInNodeList = disciplinesIdInNodesList.get(code);
           }
 
           data.links.push({

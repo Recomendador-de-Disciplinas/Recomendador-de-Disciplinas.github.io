@@ -3,7 +3,7 @@
     <h2 class="my-5 text-center">
       Grafo de disciplinas recomendadas possíveis de serem feitas
     </h2>
-    <div id="graph">a</div>
+    <div id="graph"></div>
   </v-container>
 </template>
 
