@@ -1,7 +1,9 @@
 <template>
-  <v-container id="cu" class="container" fluid>
-    <h1>Grafo de disciplinas recomendadas possíveis de serem feitas</h1>
-    <svg id="graph"></svg>
+  <v-container class="graph-container align-center" fluid>
+    <h2 class="my-5 text-center">
+      Grafo de disciplinas recomendadas possíveis de serem feitas
+    </h2>
+    <div id="graph">a</div>
   </v-container>
 </template>
 
@@ -15,26 +17,26 @@ export default {
     },
   },
   mounted() {
-    console.log(this.possibleRecommendations);
+    const frame = document.getElementById('graph');
     GraphGenerator({
-      nodes: this.possibleRecommendations.nodes,
-      links: this.possibleRecommendations.links,
-      width: this.$el.querySelector('svg').style.width,
-      height: this.$el.querySelector('svg').style.height,
-      container: this.$el.querySelector('svg'),
+      data: this.possibleRecommendations,
+      width: frame.clientWidth,
+      height: frame.clientHeight,
+      container: frame,
     });
   },
 };
 </script>
 
 <style scoped>
-.container {
-  height: 400px;
+.graph-container {
+  height: 100vh;
 }
 
 #graph {
+  border: 1px solid #6666;
   width: 100%;
-  height: 100%;
+  height: 70%;
 }
 
 .link {

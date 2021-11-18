@@ -1,125 +1,14 @@
-import * as d3 from 'd3';
+import ForceGraph from 'force-graph';
 
-function getSvgContainer(container) {
-  const svg = d3.select(container);
-  return svg;
-}
-
-function buildGraphLinks(svgContainer, links) {
-  return svgContainer
-    .append('g')
-    .attr('fill', 'none')
-    .attr('stroke-width', 1.5)
-    .selectAll('path')
-    .data(links)
-    .join('path')
-    .attr('marker-end', (d) => `url(#arrow-end)`);
-}
-
-function buildGraphNodes(svgContainer, nodes) {
-  const nodeRadius = 18;
-
-  const node = svgContainer
-    .append('g')
-    .attr('fill', 'currentColor')
-    .attr('stroke-linecap', 'round')
-    .attr('stroke-linejoin', 'round')
-    .selectAll('g')
-    .data(nodes)
-    .join('g');
-
-  node
-    .append('circle')
-    .attr('class', 'node')
-    .attr('stroke', 'white')
-    .attr('stroke-width', 1.5)
-    .attr('r', nodeRadius);
-
-  return node;
-}
-
-function buildGraphNodeLabels(node) {
-  node
-    .append('text')
-    .attr('x', 0)
-    .attr('y', -20)
-    .attr('text-anchor', 'middle')
-    .text((d) => d.name);
-}
-
-function buildGraphLinkMarkers(svgContainer) {
-  svgContainer
-    .append('defs')
-    .selectAll('marker')
-    .data(['end'])
-    .join('marker')
-    .attr('id', 'arrow-end')
-    .attr('viewBox', '0 -5 10 10')
-    .attr('refX', 25)
-    .attr('refY', 0)
-    .attr('markerWidth', 8)
-    .attr('markerHeight', 8)
-    .attr('orient', 'auto')
-    .append('path')
-    .attr('fill', '#000')
-    .attr('d', 'M0,-5L10,0L0,5');
-}
-
-function setGraphSimulationForces(nodes, links, width, height) {
-  const simulation = d3
-    .forceSimulation(nodes)
-    .force(
-      'link',
-      d3.forceLink(links).id((d) => d.id)
-    )
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('charge', d3.forceManyBody().strength(-5000))
-    .force('x', d3.forceX())
-    .force('y', d3.forceY());
-
-  return simulation;
-}
-
-function setGraphItemsTranslation(simulation, node, link) {
-  simulation.on('tick', () => {
-    link.attr('d', (d) => {
-      return `M${d.source.x},${d.source.y} L${d.target.x},${d.target.y}`;
-    });
-
-    node.attr('transform', (d) => `translate(${d.x},${d.y})`);
-  });
-}
-
-function setGraphNodesMovementAndClick(node, simulation) {
-  const drag = d3
-    .drag()
-    .on('start', (event) => {
-      if (!event.active) simulation.alphaTarget(0.3).restart();
-      event.subject.fx = event.subject.x;
-      event.subject.fy = event.subject.y;
-    })
-    .on('drag', (event) => {
-      event.subject.fx = event.x;
-      event.subject.fy = event.y;
-    })
-    .on('end', (event) => {
-      if (!event.active) simulation.alphaTarget(0);
-      event.subject.fx = null;
-      event.subject.fy = null;
-    });
-
-  node.call(drag).on('click', (_, d) => d.onClick());
-}
-
-export default function generateGraph(payload) {
-  const { nodes, links, width, height, container } = payload;
-
-  const svg = getSvgContainer(container);
-  const drawnLinks = buildGraphLinks(svg, links);
-  const drawnNodes = buildGraphNodes(svg, nodes);
-  const simulation = setGraphSimulationForces(nodes, drawnLinks, width, height);
-  buildGraphLinkMarkers(svg);
-  buildGraphNodeLabels(drawnNodes);
-  setGraphItemsTranslation(simulation, drawnNodes, drawnLinks);
-  setGraphNodesMovementAndClick(drawnNodes, simulation);
+export default function GraphGenerator(payload) {
+  const { data, width, height, container } = payload;
+  const graph = ForceGraph()(container);
+  graph
+    .width(width)
+    .height(height)
+    .graphData(data)
+    .linkDirectionalArrowLength(6)
+    .dagMode('td')
+    .dagLevelDistance(15)
+    .zoom(5);
 }
