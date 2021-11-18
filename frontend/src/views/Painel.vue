@@ -191,6 +191,7 @@ export default {
         data.nodes.push({
           id: idInNodeList,
           name: `${code} - ${name}`,
+          code,
           url,
         });
 
@@ -206,6 +207,7 @@ export default {
             data.nodes.push({
               id: requisiteIdInNodeList,
               name: discipline,
+              code,
               url: null,
             });
           } else {

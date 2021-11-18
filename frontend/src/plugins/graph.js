@@ -20,9 +20,9 @@ export default function GraphGenerator(payload) {
       canvasCtx.font = `3px 'Montserrat'`;
       canvasCtx.textAlign = 'center';
       canvasCtx.textBaseline = 'middle';
-      canvasCtx.fillText(node.name, node.x, node.y + 6);
+      canvasCtx.fillText(node.code, node.x, node.y + 6);
     })
-    .dagMode('td')
+    .dagMode('radialin')
     .dagLevelDistance(13)
     .linkDirectionalArrowLength(6)
     .linkDirectionalArrowRelPos(1)
