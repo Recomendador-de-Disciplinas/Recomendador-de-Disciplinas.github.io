@@ -176,7 +176,7 @@ export default {
         data.nodes.push({
           id: idInNodeList,
           name: `${code} - ${name}`,
-          onClick: () => window.open(url, '_blank'),
+          url,
         });
 
         requisites?.forEach((requisite) => {
@@ -191,7 +191,7 @@ export default {
             data.nodes.push({
               id: requisiteIdInNodeList,
               name: discipline,
-              onClick: () => {},
+              url: null,
             });
           } else {
             requisiteIdInNodeList = disciplinesIdInNodesList[code];
