@@ -8,6 +8,18 @@ export function getDataFromStorage(storage) {
   };
 }
 
+export function getComputedDataFromStorage(storage) {
+  return {
+    name: JSON.parse(storage.getItem('name')) || '',
+    keywords: JSON.parse(storage.getItem('keywords')) || [],
+    courseCode: JSON.parse(storage.getItem('courseCode')) || '',
+    disciplines:
+      getComputedObjects(JSON.parse(storage.getItem('disciplines'))) || [],
+    departments:
+      getComputedObjects(JSON.parse(storage.getItem('departments'))) || [],
+  };
+}
+
 export function saveDataInStorage(storage, payload) {
   const { userData, backendData } = payload;
   const { isValid, errors } = validateFields(userData, backendData);
@@ -34,6 +46,10 @@ export function saveDataInStorage(storage, payload) {
   });
 
   return [];
+}
+
+function getComputedObjects(objects) {
+  return objects?.map((obj) => `${obj.code} - ${obj.name}`);
 }
 
 function getFullObject(allObjects, selecteds) {

@@ -22,11 +22,16 @@
       </v-row>
       <v-row class="px-10">
         <v-col>
-          <v-text-field label="Nome" v-model="name" required clearable />
+          <v-text-field
+            label="Nome"
+            v-model="userData.name"
+            required
+            clearable
+          />
           <v-autocomplete
-            :items="allCoursesCode"
+            :items="backendData.allCoursesCode"
             label="Código do curso"
-            v-model="courseCode"
+            v-model="userData.courseCode"
             no-data-text="Nenhum código de curso encontrado"
             hint="Exemplo: o código de Ciência da Computação no IME-USP é 45052. Caso não lembre o código do seu curso, acesse o JupiterWeb."
             persistent-hint
@@ -44,7 +49,7 @@
           />
         </v-col>
         <v-col>
-          <Board :disciplines="disciplines" @erase="eraseDiscipline" />
+          <Board :disciplines="userData.disciplines" @erase="eraseDiscipline" />
         </v-col>
       </v-row>
       <v-row>
@@ -57,14 +62,14 @@
         <v-col>
           <v-combobox
             label="Tópicos de interesse"
-            v-model="keywords"
+            v-model="userData.keywords"
             deletable-chips
             multiple
             small-chips
           ></v-combobox>
           <v-autocomplete
             label="Departamentos de interesse"
-            v-model="departments"
+            v-model="userData.departments"
             :items="displayDepartments"
             no-data-text="Nenhum departamento encontrado"
             deletable-chips
@@ -88,57 +93,59 @@
 
 <script>
 import Board from '@/components/Board.vue';
-import { saveDataInStorage } from '@/services/Storage.js';
+import {
+  getComputedDataFromStorage,
+  saveDataInStorage,
+} from '@/services/Storage.js';
+import { getAllFormDataFromBackend } from '@/services/Request.js';
 
 export default {
   data: () => ({
-    name: '',
-    courseCode: '',
+    userData: {
+      name: '',
+      disciplines: [],
+      departments: [],
+      keywords: [],
+      recommendations: [],
+      courseCode: '',
+    },
+    backendData: {
+      allCoursesCode: [],
+      allDisciplines: [],
+      allDepartments: [],
+    },
     discipline: '',
-    disciplines: [],
-    departments: [],
-    keywords: [],
-    allCoursesCode: [],
-    allDisciplines: [],
-    allDepartments: [],
     errors: [],
   }),
   components: {
     Board,
   },
   mounted() {
-    this.name = JSON.parse(localStorage.getItem('name')) || '';
-    this.courseCode = JSON.parse(localStorage.getItem('courseCode')) || '';
-    this.keywords = JSON.parse(localStorage.getItem('keywords')) || [];
-    this.getSavedDisciplines();
-    this.getSavedDepartments();
-
-    this.getAllCoursesCode();
-    this.getAllDisciplines();
-    this.getAllDepartments();
+    this.userData = getComputedDataFromStorage(localStorage);
+    this.fetchBackendData();
   },
   methods: {
-    getSavedDisciplines() {
-      const disciplineObjects =
-        JSON.parse(localStorage.getItem('disciplines')) || [];
-      this.disciplines = disciplineObjects.map(
-        (disc) => `${disc.code} - ${disc.name}`
-      );
-    },
-    getSavedDepartments() {
-      const departmentObjects =
-        JSON.parse(localStorage.getItem('departments')) || [];
-      this.departments = departmentObjects.map(
-        (dep) => `${dep.code} - ${dep.name}`
-      );
+    async fetchBackendData() {
+      const allDisciplines =
+        (await getAllFormDataFromBackend('/disciplines')) || [];
+      const allDepartments =
+        (await getAllFormDataFromBackend('/departments')) || [];
+      const allCoursesCode =
+        (await getAllFormDataFromBackend('/requisites/courses'))?.sort() || [];
+
+      this.backendData = {
+        allDisciplines,
+        allDepartments,
+        allCoursesCode,
+      };
     },
     eraseDiscipline(discipline) {
-      this.disciplines = this.disciplines.filter(
+      this.userData.disciplines = this.userData.disciplines.filter(
         (element) => discipline != element
       );
     },
     addDiscipline() {
-      const hasDiscipline = this.disciplines.find(
+      const hasDiscipline = this.userData.disciplines.find(
         (element) => element == this.discipline
       );
       if (!hasDiscipline) {
@@ -147,25 +154,15 @@ export default {
         );
 
         if (disciplineExists) {
-          this.disciplines.push(this.discipline);
+          this.userData.disciplines.push(this.discipline);
           this.discipline = '';
         }
       }
     },
     submit() {
       const errors = saveDataInStorage(localStorage, {
-        userData: {
-          name: this.name,
-          courseCode: this.courseCode,
-          disciplines: this.disciplines,
-          departments: this.departments,
-          keywords: this.keywords,
-        },
-        backendData: {
-          allCoursesCode: this.allCoursesCode,
-          allDepartments: this.allDepartments,
-          allDisciplines: this.allDisciplines,
-        },
+        userData: this.userData,
+        backendData: this.backendData,
       });
 
       if (errors.length === 0) {
@@ -173,30 +170,15 @@ export default {
       }
       this.errors = errors;
     },
-    async getAllDisciplines() {
-      const url = process.env.BACKEND_URL || 'http://localhost:8080';
-      const response = await fetch(url + '/disciplines');
-      this.allDisciplines = await response.json();
-    },
-    async getAllDepartments() {
-      const url = process.env.BACKEND_URL || 'http://localhost:8080';
-      const response = await fetch(url + '/departments');
-      this.allDepartments = await response.json();
-    },
-    async getAllCoursesCode() {
-      const url = process.env.BACKEND_URL || 'http://localhost:8080';
-      const response = await fetch(url + '/requisites/courses');
-      this.allCoursesCode = (await response.json()).sort();
-    },
   },
   computed: {
     displayDisciplines() {
-      return this.allDisciplines.map(
+      return this.backendData.allDisciplines.map(
         (element) => `${element.code} - ${element.name}`
       );
     },
     displayDepartments() {
-      return this.allDepartments.map(
+      return this.backendData.allDepartments.map(
         (element) => `${element.code} - ${element.name}`
       );
     },
