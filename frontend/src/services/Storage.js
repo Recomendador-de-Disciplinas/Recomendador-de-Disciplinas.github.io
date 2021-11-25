@@ -50,7 +50,7 @@ function getComputedObjects(objects) {
 function getFullObject(allObjects, selecteds) {
   return selecteds.map((selected) =>
     allObjects.find(({ code }) => {
-      const [inputCode, _] = selected.split('-');
+      const [inputCode] = selected.split('-');
       return inputCode.trim() == code;
     })
   );
