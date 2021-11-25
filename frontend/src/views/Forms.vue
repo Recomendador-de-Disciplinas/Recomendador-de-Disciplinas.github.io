@@ -97,6 +97,7 @@ import {
   getComputedDataFromStorage,
   saveDataInStorage,
 } from '@/services/Storage.js';
+import validateFields from '@/services/Validate.js';
 import { getAllFormDataFromBackend } from '@/services/Request.js';
 
 export default {
@@ -160,15 +161,19 @@ export default {
       }
     },
     submit() {
-      const errors = saveDataInStorage(localStorage, {
-        userData: this.userData,
-        backendData: this.backendData,
-      });
-
-      if (errors.length === 0) {
+      const { isValid, errors } = validateFields(
+        this.userData,
+        this.backendData.allCoursesCode
+      );
+      if (isValid) {
+        saveDataInStorage(localStorage, {
+          userData: this.userData,
+          backendData: this.backendData,
+        });
         this.$router.push('/panel');
+      } else {
+        this.errors = errors;
       }
-      this.errors = errors;
     },
   },
   computed: {
