@@ -13,7 +13,7 @@ export default {
   data: () => ({
     paths: [
       { name: 'Home', url: '/' },
-      { name: 'Dados', url: '/forms' },
+      { name: 'Meus Dados', url: '/forms' },
       { name: 'Meu Painel', url: '/panel' },
     ],
   }),

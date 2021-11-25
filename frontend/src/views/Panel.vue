@@ -43,6 +43,7 @@
               color="#FAF7B1"
               depressed
               width="50%"
+              @click="reactButtons"
             >
               <v-icon left> mdi-pencil </v-icon>Editar Dados</v-btn
             >
@@ -51,6 +52,7 @@
               color="#FAF7B1"
               depressed
               width="50%"
+              @click="reactButtons"
             >
               <v-icon left> mdi-pencil </v-icon>Editar Interesses</v-btn
             >
@@ -108,7 +110,7 @@ export default {
   },
   computed: {
     checkIfUserHasNotData() {
-      return this.name == '';
+      return this.userData.name == '';
     },
     panelContainerClass() {
       let className = 'height-100';
@@ -170,6 +172,11 @@ export default {
       await this.fetchRecommendations();
       await this.fetchPossibleRecommendations();
       this.dataFetched = true;
+    },
+    reactButtons() {
+      alert(
+        'Em construção. Utilize a aba "Meus Dados" para editar seus dados.'
+      );
     },
   },
 };
