@@ -22,9 +22,6 @@ export function getComputedDataFromStorage(storage) {
 
 export function saveDataInStorage(storage, payload) {
   const { userData, backendData } = payload;
-  const { isValid, errors } = validateFields(userData, backendData);
-
-  if (!isValid) return errors;
 
   const { name, courseCode, disciplines, departments, keywords } = userData;
   const { allDepartments, allDisciplines } = backendData;
@@ -44,8 +41,6 @@ export function saveDataInStorage(storage, payload) {
   Object.keys(info).forEach((field) => {
     storage.setItem(field, JSON.stringify(info[field]));
   });
-
-  return [];
 }
 
 function getComputedObjects(objects) {
