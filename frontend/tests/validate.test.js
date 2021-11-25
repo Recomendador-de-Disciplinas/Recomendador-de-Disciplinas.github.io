@@ -7,13 +7,12 @@ describe(validateFields, () => {
     const validUserData = {
       name: 'valid-user',
       courseCode: '45052',
-      departments: ['MAC'],
+      departments: ['MAC - Ciência da Computação'],
       disciplines: [],
       keywords: ['Computação'],
     };
 
     const { isValid, errors } = validateFields(validUserData, coursesCodesMock);
-    console.log(errors);
     expect(isValid).toBe(true);
     expect(errors.length).toBe(0);
   });
@@ -23,7 +22,7 @@ describe(validateFields, () => {
       name: '',
       courseCode: '',
       disciplines: [],
-      departments: ['MAC - Departamento de Ciência da Computação'],
+      departments: ['MAC - Ciência da Computação'],
       keywords: [],
     };
 
