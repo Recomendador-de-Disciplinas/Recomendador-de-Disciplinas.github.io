@@ -113,7 +113,7 @@ Requisito 1) Como comentamos na etapa anterior, agora não é mais necessário i
 
 Requisito 3) Através do formulário de cadastro, é possível agora cadastrar tópicos de interesse.
 
-Requisito 4) Para este fim, implementamos uma rota `POST` no backend que recebe quais são os departamentos de interesse e os tópicos de interesse digitados e retorna uma lista de disciplinas recomendadas. A comparação das disciplinas com os tópicos de interesse é feita de duas maneiras diferentes:
+Requisito 4) Para este fim, implementamos uma rota `GET` no backend que recebe quais são os departamentos de interesse e os tópicos de interesse digitados e retorna uma lista de disciplinas recomendadas. A comparação das disciplinas com os tópicos de interesse é feita de duas maneiras diferentes:
 
 - para tópicos de interesse com menos de 3 palavras, implementamos um sistema de [fuzzy search](https://en.wikipedia.org/wiki/Approximate_string_matching) que compara cada palavra-chave com o título de cada disciplina das unidades indicadas. Se o algoritmo reconhecer 80% de similaridade entre as palavras, colocamos a discplina na lista de recomendadas.
 - para tópicos de interesse com 3 ou mais palavras, verificamos se a disciplina contém uma substring que dá match com o tópico de interesse. Esta verificação é feita ignorando caracteres especiais (como acentos) e letras maiúsculas e minúsculas. Por exemplo, se um tópico de interesse for 'Orientado à objetos', o algoritmo dará match para disciplinas que tenham a string 'orientado a objetos', mas não dará match para disciplinas que tenham a string 'orientada a objeto'. Fizemos essa outra alternativa pois a biblioteca escolhida que implementa a _fuzzy search_ não lida bem com strings com 3 ou mais palavras.
