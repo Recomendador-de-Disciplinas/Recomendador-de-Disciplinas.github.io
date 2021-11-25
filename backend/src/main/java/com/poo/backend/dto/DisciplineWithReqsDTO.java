@@ -23,11 +23,11 @@ public class DisciplineWithReqsDTO extends DisciplineDTO {
         return requisites.stream().map(RequisitesByCourseDTO::new).collect(Collectors.toList());
     }
 
-    public void setRequisites(List<RequisitesByCourseDTO> requisites) {
-        this.requisites = requisites;
-    }
-
     public List<RequisitesByCourseDTO> getRequisites() {
         return requisites;
+    }
+
+    public void setRequisites(List<RequisitesByCourseDTO> requisites) {
+        this.requisites = requisites;
     }
 }

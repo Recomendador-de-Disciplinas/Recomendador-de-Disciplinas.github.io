@@ -45,7 +45,7 @@ class DisciplineRepositoryTest {
     @DisplayName("it gets all disciplines that belongs to specifics departments")
     public void testFindAllByDepartmentIdIn() {
         setupFindAllByDepartmentIdIn();
-        List<Long>ids = List.of(1L, 2L);
+        List<Long> ids = List.of(1L, 2L);
         assertEquals(3, disciplineRepo.findAllByDepartmentIdIn(ids).size());
     }
 }

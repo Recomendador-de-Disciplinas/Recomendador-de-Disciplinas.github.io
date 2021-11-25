@@ -1,12 +1,14 @@
 package com.poo.backend.controllers;
 
 import com.poo.backend.dto.*;
-import com.poo.backend.entities.Discipline;
 import com.poo.backend.search.SearchByExactMatch;
 import com.poo.backend.search.SearchByFuzzy;
 import com.poo.backend.services.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,41 +30,39 @@ public class DisciplineController {
         return disciplineService.findAll();
     }
 
-    @PostMapping(path = "/recommendations")
-    public List<DisciplineWithoutReqsDTO> getRecommendations(@RequestBody RecommendationsInputDTO body) {
+    @GetMapping(path = "/recommendations")
+    public List<DisciplineWithoutReqsDTO> getRecommendations(@RequestParam("departmentsId") List<Long> ids,
+                                                             @RequestParam("keywords") List<String> keywords) {
         List<DisciplineWithoutReqsDTO> disciplines;
-        List<String> disciplinesNames;
-        List<Integer> disciplinesIndexes;
-
-        disciplines = disciplineService.findAllByDepartmentsId(body.getDepartmentsId());
-
-        disciplinesNames = disciplines.stream().map(DisciplineWithoutReqsDTO::getName).collect(Collectors.toList());
-        disciplinesIndexes = disciplinesThatMatchWithKeywords(body.getKeywords(), disciplinesNames);
-        disciplines = disciplinesIndexes.stream().map(disciplines::get).collect(Collectors.toList());
+        disciplines = disciplineService.findAllByDepartmentsId(ids);
+        disciplines = (List<DisciplineWithoutReqsDTO>) findAllByKeywordsMatch(disciplines, keywords);
 
         return (List<DisciplineWithoutReqsDTO>) removeDups(disciplines);
     }
 
-    @PostMapping(path = "/possible-recommendations")
-    public List<DisciplineWithReqsDTO> getPossibleRecommendations(@RequestBody PossibleRecommendationsInputDTO body) {
-        List<DisciplineWithReqsDTO> disciplines;
 
-        disciplines = disciplineService.findAllWithRequisitesByDepartmentsId(body.getDepartmentsId());
-        disciplines = findAllByKeywordsMatch(disciplines, body.getKeywords());
+    @GetMapping(path = "/possible-recommendations")
+    public List<DisciplineWithReqsDTO> getPossibleRecommendations(@RequestParam("departmentsId") List<Long> ids,
+                                                                  @RequestParam("keywords") List<String> keywords,
+                                                                  @RequestParam("disciplinesCode") List<String> disciplinesCode,
+                                                                  @RequestParam("courseCode") String courseCode) {
+        List<DisciplineWithReqsDTO> disciplines;
+        disciplines = disciplineService.findAllWithRequisitesByDepartmentsId(ids);
+        disciplines = (List<DisciplineWithReqsDTO>) findAllByKeywordsMatch(disciplines, keywords);
         disciplines = (List<DisciplineWithReqsDTO>) removeDups(disciplines);
-        filterPreReqsByCourseCode(disciplines, body.getCourseCode());
-        disciplines = disciplinesPossibleToDo(disciplines, body.getDisciplinesCode());
+        filterPreReqsByCourseCode(disciplines, courseCode);
+        disciplines = disciplinesPossibleToDo(disciplines, disciplinesCode);
 
         return disciplines;
     }
 
-    private List<DisciplineWithReqsDTO> findAllByKeywordsMatch(List<DisciplineWithReqsDTO> disciplines, List<String> keywords) {
+    private List<? extends DisciplineDTO> findAllByKeywordsMatch(List<? extends DisciplineDTO> disciplines, List<String> keywords) {
         List<String> disciplinesNames;
         List<Integer> disciplinesIndexes;
 
         if (keywords.size() == 0) return disciplines;
 
-        disciplinesNames = disciplines.stream().map(DisciplineWithReqsDTO::getName).collect(Collectors.toList());
+        disciplinesNames = disciplines.stream().map(DisciplineDTO::getName).collect(Collectors.toList());
         disciplinesIndexes = disciplinesThatMatchWithKeywords(keywords, disciplinesNames);
 
         return disciplinesIndexes.stream().map(disciplines::get).collect(Collectors.toList());
@@ -96,8 +96,8 @@ public class DisciplineController {
             requisites = discipline.getRequisites();
             if (requisites.size() > 0) {
                 filteredRequisites = requisites.stream()
-                                    .filter(requisite -> Objects.equals(requisite.getCourseCode(), courseCode))
-                                    .collect(Collectors.toList());
+                        .filter(requisite -> Objects.equals(requisite.getCourseCode(), courseCode))
+                        .collect(Collectors.toList());
 
                 if (filteredRequisites.size() == 0)
                     filteredRequisites = List.of(requisites.get(0));

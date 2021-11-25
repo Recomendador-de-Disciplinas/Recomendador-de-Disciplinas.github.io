@@ -28,12 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class FetchDataFromJsonTest {
 
-    private FetchDataFromJson fetcher;
-
-    @Autowired
-    private DepartmentRepository departmentRepo;
     @Autowired
     DisciplineRepository disciplineRepo;
+    private FetchDataFromJson fetcher;
+    @Autowired
+    private DepartmentRepository departmentRepo;
     @Autowired
     private RequisitesByCourseRepository requisiteByCourseRepo;
     @Autowired
