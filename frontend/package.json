@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "force-graph": "^1.42.4",
     "vue": "^2.6.11",

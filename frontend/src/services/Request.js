@@ -1,28 +1,17 @@
-export async function fetchDataFromBackend(path, body) {
-  const url = process.env.BACKEND_URL || 'http://localhost:8080';
+import axios from '@/plugins/axios';
 
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json');
+export async function fetchDataFromBackend(path, body = {}) {
+  const params = new URLSearchParams();
+  Object.keys(body).forEach((key) => {
+    params.append(key, body[key]);
+  });
 
-  const response = await fetch(url + path, {
-    headers,
-    method: 'POST',
-    body: JSON.stringify(body),
+  const response = await axios.get(path, {
+    params,
   });
 
   if (response.status === 200) {
-    return await response.json();
-  }
-  return null;
-}
-
-export async function getAllFormDataFromBackend(path) {
-  const url = process.env.BACKEND_URL || 'http://localhost:8080';
-
-  const response = await fetch(url + path);
-
-  if (response.status === 200) {
-    return await response.json();
+    return response.data;
   }
   return null;
 }

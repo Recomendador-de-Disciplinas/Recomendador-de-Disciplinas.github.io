@@ -98,7 +98,7 @@ import {
   saveDataInStorage,
 } from '@/services/Storage.js';
 import validateFields from '@/services/Validate.js';
-import { getAllFormDataFromBackend } from '@/services/Request.js';
+import { fetchDataFromBackend } from '@/services/Request.js';
 
 export default {
   data: () => ({
@@ -127,12 +127,10 @@ export default {
   },
   methods: {
     async fetchBackendData() {
-      const allDisciplines =
-        (await getAllFormDataFromBackend('/disciplines')) || [];
-      const allDepartments =
-        (await getAllFormDataFromBackend('/departments')) || [];
+      const allDisciplines = (await fetchDataFromBackend('/disciplines')) || [];
+      const allDepartments = (await fetchDataFromBackend('/departments')) || [];
       const allCoursesCode =
-        (await getAllFormDataFromBackend('/requisites/courses'))?.sort() || [];
+        (await fetchDataFromBackend('/requisites/courses'))?.sort() || [];
 
       this.backendData = {
         allDisciplines,
