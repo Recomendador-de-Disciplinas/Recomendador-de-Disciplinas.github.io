@@ -3,6 +3,7 @@ package com.poo.backend.controllers;
 import com.poo.backend.dto.*;
 import com.poo.backend.search.SearchByExactMatch;
 import com.poo.backend.search.SearchByFuzzy;
+import com.poo.backend.search.SearchByRegex;
 import com.poo.backend.services.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/disciplines")
-@SuppressWarnings("unchecked")
 public class DisciplineController {
 
     private final DisciplineService disciplineService;
@@ -71,12 +71,16 @@ public class DisciplineController {
     private List<Integer> disciplinesThatMatchWithKeywords(List<String> keywords,
                                                            List<String> disciplinesNames) {
         List<Integer> resultsIndex;
-        List<String> fuzzyKeywords, exactMatchKeywords;
+        List<String> regexKeywords, fuzzyKeywords, exactMatchKeywords;
+
+        regexKeywords = keywords.stream().filter(SearchByRegex::isARegexKeyword).collect(Collectors.toList());
+        keywords = keywords.stream().filter(keyword -> !SearchByRegex.isARegexKeyword(keyword)).collect(Collectors.toList());
 
         fuzzyKeywords = keywords.stream().filter(keyword -> keyword.split(" ").length < 3).collect(Collectors.toList());
         exactMatchKeywords = keywords.stream().filter(keyword -> keyword.split(" ").length >= 3).collect(Collectors.toList());
 
-        resultsIndex = new SearchByFuzzy().doSearch(fuzzyKeywords, disciplinesNames);
+        resultsIndex = new SearchByRegex().doSearch(regexKeywords, disciplinesNames);
+        resultsIndex.addAll(new SearchByFuzzy().doSearch(fuzzyKeywords, disciplinesNames));
         resultsIndex.addAll(new SearchByExactMatch().doSearch(exactMatchKeywords, disciplinesNames));
 
         return resultsIndex;
