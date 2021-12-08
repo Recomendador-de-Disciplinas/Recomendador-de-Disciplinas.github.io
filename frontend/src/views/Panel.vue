@@ -143,6 +143,9 @@ export default {
         departmentsId: this.userData.departments.map(
           (department) => department.id
         ),
+        disciplinesCode: this.userData.disciplines.map(
+          (discipline) => discipline.code
+        ),
         keywords: this.userData.keywords,
       };
       this.recommendations = await fetchDataFromBackend(

@@ -61,8 +61,11 @@
       <v-row class="px-10">
         <v-col>
           <v-combobox
+            class="mb-5"
             label="Tópicos de interesse"
             v-model="userData.keywords"
+            hint="Caso deseje usar expressões regulares, utilize '/' no início e no fim de uma palavra-chave. Exemplo: '/computa+/'"
+            persistent-hint
             deletable-chips
             multiple
             small-chips
