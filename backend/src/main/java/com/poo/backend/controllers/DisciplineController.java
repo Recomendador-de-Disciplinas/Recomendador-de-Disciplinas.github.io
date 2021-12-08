@@ -32,12 +32,13 @@ public class DisciplineController {
 
     @GetMapping(path = "/recommendations")
     public List<DisciplineWithoutReqsDTO> getRecommendations(@RequestParam("departmentsId") List<Long> ids,
-                                                             @RequestParam("keywords") List<String> keywords) {
+                                                             @RequestParam("keywords") List<String> keywords,
+                                                             @RequestParam("disciplinesCode") List<String> disciplinesCode) {
         List<DisciplineWithoutReqsDTO> disciplines;
         disciplines = disciplineService.findAllByDepartmentsId(ids);
         disciplines = (List<DisciplineWithoutReqsDTO>) findAllByKeywordsMatch(disciplines, keywords);
 
-        return (List<DisciplineWithoutReqsDTO>) removeDups(disciplines);
+        return (List<DisciplineWithoutReqsDTO>) removeDups(disciplines, disciplinesCode);
     }
 
 
@@ -49,7 +50,7 @@ public class DisciplineController {
         List<DisciplineWithReqsDTO> disciplines;
         disciplines = disciplineService.findAllWithRequisitesByDepartmentsId(ids);
         disciplines = (List<DisciplineWithReqsDTO>) findAllByKeywordsMatch(disciplines, keywords);
-        disciplines = (List<DisciplineWithReqsDTO>) removeDups(disciplines);
+        disciplines = (List<DisciplineWithReqsDTO>) removeDups(disciplines, disciplinesCode);
         filterPreReqsByCourseCode(disciplines, courseCode);
         disciplines = disciplinesPossibleToDo(disciplines, disciplinesCode);
 
@@ -86,8 +87,8 @@ public class DisciplineController {
         return resultsIndex;
     }
 
-    private List<? extends DisciplineDTO> removeDups(List<? extends DisciplineDTO> disciplines) {
-        Set<String> disciplinesCode = new HashSet<>();
+    private List<? extends DisciplineDTO> removeDups(List<? extends DisciplineDTO> disciplines, List<String> disciplinesAlredyDone) {
+        Set<String> disciplinesCode = new HashSet<>(disciplinesAlredyDone);
         return disciplines.stream().filter(discipline -> {
             String code = discipline.getCode();
             return !disciplinesCode.contains(code) && (disciplinesCode.add(code));
@@ -116,18 +117,17 @@ public class DisciplineController {
                 .filter(discipline -> {
                     List<RequisitesByCourseDTO> requisitesByCourse = discipline.getRequisites();
                     List<RequisiteDTO> requisites = new ArrayList<>();
-                    boolean disciplineAlreadyDone, hasAllPreReqs;
+                    boolean hasAllPreReqs;
 
                     if (requisitesByCourse.size() > 0)
                         requisites = requisitesByCourse.get(0).getRequisites();
 
-                    disciplineAlreadyDone = preReqsCode.contains(discipline.getCode());
                     hasAllPreReqs = requisites.stream().allMatch(requisite -> {
                         String code = requisite.getDiscipline().split("-")[0];
                         return preReqsCode.contains(code.trim());
                     });
 
-                    return !disciplineAlreadyDone && hasAllPreReqs;
+                    return hasAllPreReqs;
                 })
                 .collect(Collectors.toList());
     }

@@ -53,8 +53,29 @@ class DisciplineControllerTest {
         expected.remove(1);
         expected.remove(3);
 
-        List<DisciplineWithoutReqsDTO> result = controller.getRecommendations(List.of(department.getId()),
-                List.of("computação", "orientada a objetos"));
+        List<DisciplineWithoutReqsDTO> result = controller.getRecommendations(
+                                                                              List.of(department.getId()),
+                                                                              List.of("computação", "orientada a objetos"),
+                                                                              List.of(""));
+
+        expected.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));
+        result.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));
+        Assertions.assertEquals(expected.toString(), result.toString());
+    }
+
+    @Test
+    @DisplayName("it returns the correct recommended disciplines when used correct inputs without already done disciplines")
+    public void testGetRecommendations2() {
+        List<DisciplineWithoutReqsDTO> disciplines = setupTestGetRecommendations();
+        List<DisciplineWithoutReqsDTO> expected = new ArrayList<>(disciplines);
+        expected.remove(0);
+        expected.remove(0);
+        expected.remove(2);
+
+        List<DisciplineWithoutReqsDTO> result = controller.getRecommendations(
+                List.of(department.getId()),
+                List.of("computação", "orientada a objetos"),
+                List.of("MAC0110"));
 
         expected.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));
         result.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));
