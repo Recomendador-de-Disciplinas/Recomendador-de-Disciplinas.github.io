@@ -54,9 +54,9 @@ class DisciplineControllerTest {
         expected.remove(3);
 
         List<DisciplineWithoutReqsDTO> result = controller.getRecommendations(
-                                                                              List.of(department.getId()),
-                                                                              List.of("computação", "orientada a objetos"),
-                                                                              List.of(""));
+                List.of(department.getId()),
+                List.of("computação", "orientada a objetos"),
+                List.of(""));
 
         expected.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));
         result.sort(Comparator.comparing(DisciplineWithoutReqsDTO::getName));

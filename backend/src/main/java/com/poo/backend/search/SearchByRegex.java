@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class SearchByRegex implements Search {
+    public static boolean isARegexKeyword(String keyword) {
+        return !keyword.isEmpty() && keyword.charAt(0) == '/' && keyword.charAt(keyword.length() - 1) == '/';
+    }
+
     @Override
     public List<Integer> doSearch(List<String> keywords, List<String> data) {
         List<Integer> results = new ArrayList<>();
@@ -24,10 +28,6 @@ public class SearchByRegex implements Search {
         });
 
         return results;
-    }
-
-    public static boolean isARegexKeyword(String keyword) {
-        return !keyword.isEmpty() && keyword.charAt(0) == '/' && keyword.charAt(keyword.length() - 1) == '/';
     }
 
     private String formatRegex(String regex) {
