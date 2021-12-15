@@ -136,11 +136,13 @@ Requisito 5) Para este requisito, implementamos uma nova rota no backend que rec
 
 No frontend realizamos a alteração no formulário para pedir o código do curso do usuário e implementamos a visualização do grafo utilizando a biblioteca [force-graph](https://github.com/vasturiano/force-graph).
 
-| ![contribuicao_fase_2](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_3.png) |
+| ![contribuicao_fase_3](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_3.png) |
 | :----------------------------------------------------------------------------------------------------------: |
 |                                  **Contribuições no período 25/10 - 25/11**                                  |
 |          Da esquerda para a direita: Thiago: 46, Erick: 45, Francisco: 17, Daniel: 16, Vinicius: 13          |
 
 ## Fase 4
 
-_Em progresso..._
+Requisito 6) A partir do mesmo campo de inserção dos tópicos de interesse que já existe, é possível inserir expressões regulares utilizando como prefixo e sufixo o caractere '/', por exemplo, '/computa+/'. No backend, reconhecemos que é uma expressão regular através deste caracter e realizamos o processamento correspondente de _match_.
+
+Requisito 7) Implementamos este requisito através do uso da biblioteca [VueWordCloud](https://github.com/SeregPie/VueWordCloud).
