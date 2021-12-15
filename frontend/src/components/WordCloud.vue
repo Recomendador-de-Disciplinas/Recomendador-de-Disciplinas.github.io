@@ -24,7 +24,11 @@
         @update:progress="updateLoading($event, 'disciplines')"
       >
         <template slot-scope="{ text, weight }">
-          <div :title="`${text} (${weight})`" class="text-h5">
+          <div
+            :title="`${text} (${weight})`"
+            style="cursor: pointer"
+            class="text-h5"
+          >
             {{ text }}
           </div>
         </template>
@@ -41,7 +45,7 @@
         ></v-progress-linear
       >
       <VueWordCloud
-        :spacing="4"
+        :spacing="1"
         class="mx-auto"
         style="height: 100vh; width: 70vw"
         :words="allRecommendations"
@@ -50,7 +54,11 @@
         @update:progress="updateLoading($event, 'recommendations')"
       >
         <template slot-scope="{ text, weight }">
-          <div :title="`${text} (${weight})`" class="caption">
+          <div
+            :title="`${text} (${weight})`"
+            style="cursor: pointer"
+            :class="weight > 1 ? 'text-h6' : 'caption'"
+          >
             {{ text }}
           </div>
         </template>
