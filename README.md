@@ -146,3 +146,8 @@ No frontend realizamos a alteração no formulário para pedir o código do curs
 Requisito 6) A partir do mesmo campo de inserção dos tópicos de interesse que já existe, é possível inserir expressões regulares utilizando como prefixo e sufixo o caractere '/', por exemplo, '/computa+/'. No backend, reconhecemos que é uma expressão regular através deste caracter e realizamos o processamento correspondente de _match_.
 
 Requisito 7) Implementamos este requisito através do uso da biblioteca [VueWordCloud](https://github.com/SeregPie/VueWordCloud).
+
+| ![contribuicao_fase_4](https://gitlab.com/TGuerrero_/recomendador-de-disciplinas/-/raw/main/docs/fase_4.png) |
+| :----------------------------------------------------------------------------------------------------------: |
+|                                  **Contribuições no período 17/11 - 17/12**                                  |
+|          Da esquerda para a direita: Thiago: 23, Erick: 18, Francisco: 10, Vinicius: 8, Daniel: 7            |
