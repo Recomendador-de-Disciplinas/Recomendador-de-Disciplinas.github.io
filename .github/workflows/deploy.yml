@@ -23,9 +23,7 @@ jobs:
         yarn install
         yarn build
     - name: deploy
-      run: |
-        git init
-        git add -A
-        git commit
-        git commit -m "🚀 Deploy id ${GITHUB_RUN_ID}"
-        git push -f "https://github.com/${GITHUB_REPOSITORY}.git" master:gh-pages
+      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      with:
+        branch: gh-pages
+        folder: dist
