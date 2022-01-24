@@ -21,7 +21,7 @@ jobs:
       - name: build production
         run: |
           cd frontend/
-          echo $BACKEND_URL >> .env
+          echo VUE_APP_BACKEND_URL=$BACKEND_URL >> .env
           yarn install
           yarn build
       - name: deploy
