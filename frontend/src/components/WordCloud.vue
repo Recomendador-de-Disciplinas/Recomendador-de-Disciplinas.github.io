@@ -83,7 +83,7 @@ export default {
     percentageLoadedRecommendations: 0,
     percentageLoadedDisciplinesAlreadyDone: 0,
     colors: [
-      '#f94144',
+      '#f94134',
       '#f3722c',
       '#f8961e',
       '#f9844a',
