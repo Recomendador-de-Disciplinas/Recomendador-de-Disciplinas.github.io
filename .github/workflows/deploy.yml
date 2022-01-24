@@ -21,12 +21,11 @@ jobs:
         env:
           BACKEND_URL: ${{ secrets.BACKEND_URL }}
         run: |
+          echo A variável é: $BACKEND_URL
           cd frontend/
           yarn install
           yarn build
       - name: deploy
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
         uses: JamesIves/github-pages-deploy-action@v4.2.2
         with:
           branch: gh-pages
