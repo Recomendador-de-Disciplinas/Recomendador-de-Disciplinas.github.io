@@ -7,6 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      BACKEND_URL: ${{ secrets.BACKEND_URL }}
     strategy:
       matrix:
         node-version: [16.x]
@@ -17,8 +19,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: build production
-        env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
         run: |
           echo A variável é: $BACKEND_URL
           cd frontend/
